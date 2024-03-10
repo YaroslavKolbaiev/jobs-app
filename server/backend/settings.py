@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     # "corsheaders",
     # "storages",
     # "django_filters",
-    "django.contrib.gis",
+    "django.contrib.gis",  # Add this line for GeoDjango
     "job.apps.JobConfig",
 ]
 
