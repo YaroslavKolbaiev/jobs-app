@@ -9,11 +9,11 @@ class JobViewTestCase(TestCase):
     def setUp(self):
         self.client = Client()
         self.job1 = Job.objects.create(
-            title="Job-Default",
-            description="Job-default description",
+            title="React Developer",
+            description="React developer description",
             email="test-default@gmail.com",
             address="test address",
-            salary=1000,
+            salary=10000,
             position=1,
             company="test company",
             point="POINT(0.0 0.0)",
@@ -25,8 +25,8 @@ class JobViewTestCase(TestCase):
             experience="No Experience",
         )
         self.job2 = Job.objects.create(
-            title="Job-Default2",
-            description="Job-default2 description",
+            title="Manager",
+            description="Job driver description",
             email="test@gmail.com",
             address="test address",
             salary=50000,
@@ -37,9 +37,33 @@ class JobViewTestCase(TestCase):
             created_at=datetime.now().isoformat(),
             jobType="Permanent",
             education="PhD",
-            industry="IT",
+            industry="Telecommunication",
             experience="No Experience",
         )
+
+    def test_get_all_jobs_filter_industry(self):
+        response = self.client.get(reverse("jobs") + "?industry=IT")
+        jobs = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(jobs), 1)
+        for job in jobs:
+            self.assertEqual(job["industry"], "IT")
+
+    def test_get_all_jobs_filter_salary(self):
+        response = self.client.get(reverse("jobs") + "?min_salary=40000")
+        jobs = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(jobs), 1)
+        for job in jobs:
+            self.assertGreater(job["salary"], 40000)
+
+    def test_get_all_jobs_filter_title(self):
+        response = self.client.get(reverse("jobs") + "?keyword=react")
+        jobs = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(jobs), 1)
+        for job in jobs:
+            self.assertEqual(job["industry"], "IT")
 
     def test_create_job(self):
         url = reverse("create-job")

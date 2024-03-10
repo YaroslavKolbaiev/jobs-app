@@ -4,6 +4,7 @@ from .serializers import JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db.models import Count, Max, Min, Avg
+from .filters import JobsFilter
 
 
 @api_view(["GET"])
@@ -28,8 +29,10 @@ def getTopicStats(request, topic):
 # Create get all posts.
 @api_view(["GET"])
 def getJobs(request):
-    jobs = Job.objects.all()
-    serializer = JobSerializer(jobs, many=True)
+    # This line is responsible for filtering the Job objects based on the query parameters.
+    filterset = JobsFilter(request.GET, queryset=Job.objects.all())
+    # filterset.qs is the filtered queryset.
+    serializer = JobSerializer(filterset.qs, many=True)
     return Response(serializer.data)
 
 
