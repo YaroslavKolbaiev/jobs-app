@@ -43,7 +43,7 @@ class JobViewTestCase(TestCase):
 
     def test_get_all_jobs_filter_industry(self):
         response = self.client.get(reverse("jobs") + "?industry=IT")
-        jobs = response.json()
+        jobs = response.json()["jobs"]
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(jobs), 1)
         for job in jobs:
@@ -51,7 +51,7 @@ class JobViewTestCase(TestCase):
 
     def test_get_all_jobs_filter_salary(self):
         response = self.client.get(reverse("jobs") + "?min_salary=40000")
-        jobs = response.json()
+        jobs = response.json()["jobs"]
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(jobs), 1)
         for job in jobs:
@@ -59,7 +59,7 @@ class JobViewTestCase(TestCase):
 
     def test_get_all_jobs_filter_title(self):
         response = self.client.get(reverse("jobs") + "?keyword=react")
-        jobs = response.json()
+        jobs = response.json()["jobs"]
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(jobs), 1)
         for job in jobs:
@@ -95,8 +95,21 @@ class JobViewTestCase(TestCase):
         self.assertEqual(title, "Job1")
         self.assertEqual(salary, 10000)
 
+    def test_get_topic_stats(self):
+        query = "Job"
+        url = reverse("jobs-by-topic", kwargs={"topic": query})
+        response = self.client.get(url)
+
+        if response.status_code == 404:
+            return self.assertEqual(
+                response.json()["message"], f"No job found for {query}"
+            )
+
+        self.assertEqual(response.status_code, 200)
+
     def test_update_job(self):
         job_to_update = Job.objects.get(id=1)
+        print("JOB TO UPDATE:", job_to_update)
         url = reverse(
             "update-job", kwargs={"id": job_to_update.pk}
         )  # replace with the actual name of the url
@@ -133,14 +146,3 @@ class JobViewTestCase(TestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Job.objects.filter(id=id).exists(), False)
-
-    def test_get_topic_stats(self):
-        url = reverse("jobs-by-topic", kwargs={"topic": "Job"})
-        response = self.client.get(url)
-
-        if response.status_code == 404:
-            return self.assertEqual(
-                response.json()["message"], "No job found for React"
-            )
-
-        self.assertEqual(response.status_code, 200)

@@ -5,6 +5,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db.models import Count, Max, Min, Avg
 from .filters import JobsFilter
+from rest_framework.pagination import PageNumberPagination
+
+JOBS_PER_PAGE = 2
 
 
 @api_view(["GET"])
@@ -31,9 +34,23 @@ def getTopicStats(request, topic):
 def getJobs(request):
     # This line is responsible for filtering the Job objects based on the query parameters.
     filterset = JobsFilter(request.GET, queryset=Job.objects.all())
+    # Total number of jobs
+    total_jobs = filterset.qs.count()
+    # This line is responsible for paginating the filtered queryset.
+    paginator = PageNumberPagination()
+    # Set the number of jobs per page.
+    paginator.page_size = JOBS_PER_PAGE
+    # Paginate the queryset.
+    queryset = paginator.paginate_queryset(filterset.qs, request)
     # filterset.qs is the filtered queryset.
-    serializer = JobSerializer(filterset.qs, many=True)
-    return Response(serializer.data)
+    serializer = JobSerializer(queryset, many=True)
+    return Response(
+        {
+            "jobs": serializer.data,
+            "total_jobs": total_jobs,
+            "jobs_per_page": JOBS_PER_PAGE,
+        }
+    )
 
 
 # Create get post by id.
