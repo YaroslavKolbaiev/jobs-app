@@ -18,6 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from job.views import getJobs, getJob, createJob, updateJob, deleteJob, getTopicStats
+from account.views import register
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,4 +28,5 @@ urlpatterns = [
     path("api/jobs/update/<str:id>/", updateJob, name="update-job"),
     path("api/jobs/delete/<str:id>/", deleteJob, name="delete-job"),
     path("api/stats/<str:topic>/", getTopicStats, name="jobs-by-topic"),
+    path("api/auth/register", register, name="register"),
 ]
