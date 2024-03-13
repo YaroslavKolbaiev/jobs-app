@@ -2,7 +2,8 @@ from django.shortcuts import render
 from .serializer import SignUpSerializer, UserSerializer
 from django.contrib.auth.models import User
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 
@@ -31,3 +32,12 @@ def register(request):
         return Response({"message": "User registered"}, status=status.HTTP_201_CREATED)
     else:
         return Response(sign_up_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+# Check if the user is authenticated
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
