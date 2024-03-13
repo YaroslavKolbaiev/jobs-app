@@ -3,30 +3,27 @@ from django.urls import reverse
 import json
 from django.contrib.auth.models import User
 
+DEFAULT_USER = {
+    "first_name": "test_name",
+    "last_name": "test_last_name",
+    "email": "tes2@gmail.com",
+    "password": "test_password",
+    "username": "test_username",
+}
+
+
+def sign_up():
+    Client().post(
+        reverse("register"),
+        data=json.dumps(DEFAULT_USER),
+        content_type="application/json",
+    )
+
 
 # Create your tests here.
 class AccountViewTestCase(TestCase):
-    global EXISTED_USER
-    EXISTED_USER = {
-        "first_name": "test_name",
-        "last_name": "test_last_name",
-        "email": "test@gmail.com",
-        "password": "test_password",
-        "username": "test_username",
-    }
-
     def setUp(self):
-        self.client = Client()
-        self.create_user()
-
-    def create_user(self):
-        User.objects.create(
-            first_name=EXISTED_USER["first_name"],
-            last_name=EXISTED_USER["last_name"],
-            email=EXISTED_USER["email"],
-            password=EXISTED_USER["password"],
-            username=EXISTED_USER["username"],
-        )
+        sign_up()
 
     def test_register(self):
         data = {
@@ -49,11 +46,11 @@ class AccountViewTestCase(TestCase):
 
     def test_register_email_exists(self):
         data = {
-            "first_name": "test_name2",
-            "last_name": "test_last_name2",
-            "email": EXISTED_USER["email"],
+            "first_name": "test_name3",
+            "last_name": "test_last_name3",
+            "email": DEFAULT_USER["email"],
             "password": "test_password",
-            "username": "test_username2",
+            "username": "test_username3",
         }
 
         response = self.client.post(
@@ -88,3 +85,20 @@ class AccountViewTestCase(TestCase):
             response.json()["password"][0],
             "Ensure this field has at least 6 characters.",
         )
+
+    def test_login(self):
+        data = {
+            "password": DEFAULT_USER["password"],
+            "username": DEFAULT_USER["username"],
+        }
+
+        response = self.client.post(
+            reverse("token-obtain-pair"),
+            data=json.dumps(data),
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 200)
+        # Check if response data contains kyes refresh and access
+        self.assertIn("refresh", response.json())
+        self.assertIn("access", response.json())

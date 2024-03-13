@@ -1,7 +1,8 @@
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .models import Job
 from .serializers import JobSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.db.models import Count, Max, Min, Avg
 from .filters import JobsFilter
@@ -64,7 +65,9 @@ def getJob(request, id):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def createJob(request):
+    request.data["user"] = request.user
     data = request.data
     # **data is used to unpack the data dictionary into keyword arguments
     # similar to spread operator in JavaScript.
@@ -74,16 +77,30 @@ def createJob(request):
 
 
 @api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
 def deleteJob(request, id):
     job = get_object_or_404(Job, id=id)
+    # Allow to update job only for the user who created the job
+    if job.user != request.user:
+        return Response(
+            {"message": "You are not authorized to update this job"}, status=403
+        )
     job.delete()
     return Response({"message": "Job deleted successfully"}, status=204)
 
 
 @api_view(["PUT"])
+@permission_classes([IsAuthenticated])
 def updateJob(request, id):
     data = request.data
     job = get_object_or_404(Job, id=id)
+
+    # Allow to update job only for the user who created the job
+    if job.user != request.user:
+        return Response(
+            {"message": "You are not authorized to update this job"}, status=403
+        )
+
     serializer = JobSerializer(instance=job, data=data)
     if serializer.is_valid():
         serializer.save()
