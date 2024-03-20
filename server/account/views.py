@@ -1,3 +1,4 @@
+from .validators import validate_file_extension
 from django.shortcuts import render
 from .serializer import SignUpSerializer, UserSerializer
 from django.contrib.auth.models import User
@@ -41,3 +42,47 @@ def current_user(request):
     user = request.user
     serializer = UserSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def update_user(request):
+    user = request.user
+    data = request.data
+
+    serializer = UserSerializer(user, data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(
+            {"data": serializer.data, "user_id": user.id}, status=status.HTTP_200_OK
+        )
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def uploadResume(request):
+    user = request.user
+
+    resume = request.FILES["resume"]
+
+    if resume == "":
+        return Response({"error": "Please upload your resume"}, status=404)
+
+    is_valid_file = validate_file_extension(resume.name)
+
+    if not is_valid_file:
+        return Response(
+            {"error": "Please upload only pdf, doc or docx files"}, status=404
+        )
+
+    serializer = UserSerializer(user)
+
+    # In this case i cant just make serializer.save() like in previous example
+    # because resume is not a field in User model. It is a field in UserProfile
+    # model and serializer meta is defined for User model not for UserProfile
+
+    user.userprofile.resume = resume
+    user.userprofile.save()
+    return Response({"data": serializer.data}, status=status.HTTP_200_OK)

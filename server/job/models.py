@@ -83,3 +83,10 @@ class Job(models.Model):
         # This ensures that whenever a Job object is saved,
         # the point attribute is automatically updated based on the provided address.
         super(Job, self).save(*args, **kwargs)
+
+
+class CandidatesApplied(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    resume = models.CharField(max_length=200)
+    appliedAt = models.DateTimeField(auto_now_add=True)

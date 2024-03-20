@@ -1,12 +1,14 @@
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from .models import Job
-from .serializers import JobSerializer
+from django.utils import timezone
+from .models import Job, CandidatesApplied
+from .serializers import JobSerializer, CandidatesAppliedSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.db.models import Count, Max, Min, Avg
 from .filters import JobsFilter
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import status
 
 JOBS_PER_PAGE = 2
 
@@ -41,7 +43,7 @@ def getJobs(request):
     paginator = PageNumberPagination()
     # Set the number of jobs per page.
     paginator.page_size = JOBS_PER_PAGE
-    # Paginate the queryset.
+    # Paginate the queryset. To specify page number client has include page param in request
     queryset = paginator.paginate_queryset(filterset.qs, request)
     # filterset.qs is the filtered queryset.
     serializer = JobSerializer(queryset, many=True)
@@ -54,7 +56,6 @@ def getJobs(request):
     )
 
 
-# Create get post by id.
 @api_view(["GET"])
 def getJob(request, id):
     # This line retrieves the Job object with the specified id from the database,
@@ -62,6 +63,15 @@ def getJob(request, id):
     job = get_object_or_404(Job, id=id)
     serializer = JobSerializer(job, many=False)
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def getUserCreatedJobs(request):
+    kwargs = {"user": request.user.id}
+    jobs = Job.objects.filter(**kwargs)
+    serializer = JobSerializer(jobs, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
@@ -76,6 +86,72 @@ def createJob(request):
     return Response(serializer.data)
 
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def applyForJob(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+    user = request.user
+
+    # Check if resume is provided
+    if user.userprofile.resume == "":
+        return Response(
+            {"error": "Please upload your resume first"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    # Check if job date is still valid
+    if job.lastDate < timezone.now():
+        return Response(
+            {"error": "You not allowed to apply this job. Date is over"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    # Check if the user has already applied for the job
+    if CandidatesApplied.objects.filter(job=job, user=user).exists():
+        return Response(
+            {"error": "You have already applied for this job"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    candidate = CandidatesApplied.objects.create(
+        job=job,
+        user=user,
+        resume=user.userprofile.resume,
+    )
+
+    serializer = CandidatesAppliedSerializer(candidate, many=False)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def getUserAppliedJobs(request):
+    user = request.user
+
+    jobs_applied = CandidatesApplied.objects.filter(user=user.id)
+
+    serializer = CandidatesAppliedSerializer(jobs_applied, many=True)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def getCandidatesPerJob(request, job_id):
+    current_job = get_object_or_404(Job, id=job_id)
+
+    if current_job.user != request.user:
+        return Response(
+            {"error": "You are not allowed to access data of current job"},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    candidates = CandidatesApplied.objects.filter(job=job_id)
+    serializer = CandidatesAppliedSerializer(candidates, many=True)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(["DELETE"])
 @permission_classes([IsAuthenticated])
 def deleteJob(request, id):
@@ -83,10 +159,13 @@ def deleteJob(request, id):
     # Allow to update job only for the user who created the job
     if job.user != request.user:
         return Response(
-            {"message": "You are not authorized to update this job"}, status=403
+            {"message": "You are not authorized to update this job"},
+            status=status.HTTP_403_FORBIDDEN,
         )
     job.delete()
-    return Response({"message": "Job deleted successfully"}, status=204)
+    return Response(
+        {"message": "Job deleted successfully"}, status=status.HTTP_204_NO_CONTENT
+    )
 
 
 @api_view(["PUT"])
@@ -98,7 +177,8 @@ def updateJob(request, id):
     # Allow to update job only for the user who created the job
     if job.user != request.user:
         return Response(
-            {"message": "You are not authorized to update this job"}, status=403
+            {"message": "You are not authorized to update this job"},
+            status=status.HTTP_403_FORBIDDEN,
         )
 
     serializer = JobSerializer(instance=job, data=data)

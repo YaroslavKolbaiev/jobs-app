@@ -1,8 +1,17 @@
-from django.test import TestCase, Client
+from django.core.files.uploadedfile import SimpleUploadedFile
+from unittest.mock import patch
+from django.core.files.storage import FileSystemStorage
+from django.test import TestCase
 from django.urls import reverse
-from job.models import Job
+from job.models import CandidatesApplied, Job
 import json
 from datetime import datetime
+from django.contrib.auth.models import User
+
+
+def mockFn():
+    print("Hello Mock")
+    return FileSystemStorage
 
 
 class JobViewTestCase(TestCase):
@@ -38,6 +47,41 @@ class JobViewTestCase(TestCase):
 
         self.assertEqual(title, title)
         self.assertEqual(salary, salary)
+
+    @patch("storages.backends.s3boto3.S3Boto3Storage", new_callable=mockFn)
+    def test_apply_job(self, mock_apply_job):
+        related_job = self.create_job(
+            title="Mechanoc", salary=45000, industry="Telecommunication"
+        )
+        job_id = related_job["response_data"].json()["id"]
+        token = related_job["token"]
+        user_id = related_job["response_data"].json()["user"]
+
+        user = User.objects.get(id=user_id)
+
+        file = SimpleUploadedFile("file.doc", b"file_content")
+
+        user.__getattribute__("userprofile").resume = file
+        user.__getattribute__("userprofile").save()
+
+        url = reverse("apply-job", kwargs={"job_id": job_id})
+
+        # Add the token to the request headers
+        headers = {"Authorization": f"Bearer {token}"}
+
+        response = self.client.post(
+            url,
+            content_type="application/json",
+            headers=headers,  # type: ignore
+        )
+
+        res_data = response.json()
+
+        job_applied = CandidatesApplied.objects.get(job=job_id)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(res_data["job"], job_id)
+        self.assertEqual(job_applied.resume, res_data["resume"])
 
     def test_get_topic_stats(self):
         query = "React"
