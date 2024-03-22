@@ -1,14 +1,26 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import IconLogin from './icons/IconLogin.vue';
+import IconUser from './icons/IconUser.vue';
 </script>
 
 <template>
   <header class="header">
-    <div class="wrapper">
-      <img class="logo" src="../assets/logo.svg" alt="logo" />
-      <div class="links">
-        <RouterLink :to="'#'" class="link"> Post a Job </RouterLink>
-        <RouterLink :to="'#'" class="link"> Login </RouterLink>
+    <div class="flex_wrapper-center container">
+      <div class="header_logos flex_wrapper-center">
+        <img class="logo" src="../assets/logo.svg" alt="logo" />
+        <h1 class="title">Ultimate Job</h1>
+      </div>
+      <div class="header_buttons">
+        <RouterLink v-if="true" :to="'#'" class="button clickable">
+          Post a Job
+        </RouterLink>
+        <RouterLink v-if="false" :to="'#'" class="login clickable">
+          <IconLogin />
+        </RouterLink>
+        <RouterLink v-if="true" :to="'#'" class="login clickable">
+          <IconUser />
+        </RouterLink>
       </div>
     </div>
   </header>
@@ -19,65 +31,54 @@ import { RouterLink } from 'vue-router';
 @import '../styles/vars.scss';
 
 .header {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 20px 40px;
   background-color: #2c2c2c;
-}
 
-.wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-
-  @include onTablet {
-    width: 48px;
-    height: 48px;
+  &_logos {
+    gap: 10px;
   }
 
-  @include onDesktop {
-    width: 64px;
-    height: 64px;
+  &_buttons {
+    display: flex;
+    gap: 10px;
+    @include onTablet {
+      gap: 20px;
+    }
   }
 }
 
-.links {
-  display: flex;
-  gap: 10px;
-  @include onTablet {
-    gap: 20px;
-  }
-}
-
-.link {
-  background-color: #2060f6;
-  padding: 8px 10px;
+.title {
+  display: none;
+  margin: 0;
   font-family: Poppins, sans-serif;
-  font-size: 14px;
   font-weight: 400;
-  text-decoration: none;
-  border-radius: 10px;
-  transition: background-color 200ms;
   color: $c-white;
 
   @include onTablet {
-    font-size: 18px;
-    font-weight: 600;
-    padding: 12px 16px;
+    display: block;
+  }
+}
+
+.logo {
+  @include square_32;
+  border-radius: 50%;
+
+  @include onTablet {
+    @include square_48;
   }
 
-  &:hover {
-    background-color: #1a4fc9;
+  @include onDesktop {
+    @include square_64;
   }
+}
 
-  &:active {
-    transform: scale(0.9);
+.login {
+  @include square_32;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include onDesktop {
+    @include square_48;
   }
 }
 </style>
