@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
 import IconLogin from './icons/IconLogin.vue';
 import IconUser from './icons/IconUser.vue';
 </script>
 
 <template>
   <header class="header">
-    <div class="flex_wrapper-center container">
-      <div class="header_logos flex_wrapper-center">
+    <div class="flex-between-center container">
+      <div class="header__logos flex-between-center">
         <img class="logo" src="../assets/logo.svg" alt="logo" />
         <h1 class="title">Ultimate Job</h1>
       </div>
-      <div class="header_buttons">
+      <div class="header__buttons">
         <RouterLink v-if="true" :to="'#'" class="button clickable">
           Post a Job
         </RouterLink>
@@ -33,11 +32,11 @@ import IconUser from './icons/IconUser.vue';
 .header {
   background-color: #2c2c2c;
 
-  &_logos {
+  &__logos {
     gap: 10px;
   }
 
-  &_buttons {
+  &__buttons {
     display: flex;
     gap: 10px;
     @include onTablet {
