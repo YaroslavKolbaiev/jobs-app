@@ -17,7 +17,6 @@
 </template>
 
 <style scoped lang="scss">
-@import '../styles/vars.scss';
 @import '../styles/mixins.scss';
 .about {
   font-family: Poppins, sans-serif;
@@ -33,7 +32,7 @@
   font-size: 20px;
   line-height: 150%;
   margin: 0 0 24px;
-  color: $c-black;
+  color: var(--c-main-text);
 }
 
 .paragraph {
@@ -49,6 +48,6 @@
 }
 
 .highlight {
-  color: $c-blue;
+  color: var(--c-blue);
 }
 </style>

@@ -101,14 +101,13 @@ const data = [
 
 <style scoped lang="scss">
 @import '../styles/mixins.scss';
-@import '../styles/vars.scss';
 
 .latest_jobs {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: Poppins, sans-serif;
-  gap: $jobs-gap;
+  gap: var(--jobs-gap);
 
   @include onTablet {
     flex-direction: row;
@@ -119,13 +118,13 @@ const data = [
 .card {
   width: 280px;
   box-shadow: 0 9px 18px rgba(37, 41, 49, 0.03);
-  background-color: $c-white;
+  background-color: var(--card-bg);
   border-radius: 16px;
   padding: 32px;
   box-sizing: border-box;
 
   @include onTablet {
-    width: calc(50% - $jobs-gap);
+    width: calc(50% - var(--jobs-gap));
   }
 }
 
@@ -135,21 +134,22 @@ const data = [
   font-size: 13px;
   line-height: 20px;
   text-transform: uppercase;
-  color: $c-blue;
+  color: var(--c-blue);
   margin: 0 0 20px;
   padding: 5px;
-  background-color: $main-bg;
+  background-color: var(--main-bg);
 }
 
 .description {
   font-size: 13px;
   line-height: 150%;
   margin: 0 0 10px;
-  color: $c-gray;
+  color: var(--c-gray);
 }
 
 .industry {
   margin: 0 0 10px;
+  color: var(--c-main-text);
 }
 
 .learn-more {
@@ -159,14 +159,14 @@ const data = [
   gap: 10px;
   text-decoration: none;
   font-size: 15px;
-  color: $c-brown;
+  color: var(--c-main-text);
 }
 
 .arrow {
   border-radius: 50%;
   padding: 3px;
   @include square_32;
-  background-color: $c-blue;
+  background-color: var(--c-blue);
   transition: all 600ms;
 
   &:hover {

@@ -6,9 +6,7 @@ import LatestJobs from '../components/LatestJobs.vue';
 <template>
   <main>
     <div class="container">
-      <RouterLink :to="'#'" class="search">
-        Go to Search
-      </RouterLink>
+      <RouterLink :to="'#'" class="search"> Go to Search </RouterLink>
       <div class="grid">
         <About />
         <LatestJobs />
@@ -19,17 +17,12 @@ import LatestJobs from '../components/LatestJobs.vue';
 
 <style scoped lang="scss">
 @import '../styles/mixins.scss';
-@import '../styles/vars.scss';
-
-.jobs_wrapper {
-  background-color: antiquewhite;
-}
 
 .search {
   text-decoration: none;
   font-family: Roboto, sans-serif;
   font-size: 18px;
-  color: $c-blue;
+  color: var(--c-blue);
 
   @include onTablet {
     font-size: 24px;

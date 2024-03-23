@@ -2,6 +2,27 @@
 @import './mixins.scss';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600;700&family=Roboto:wght@400;700&display=swap');
 
+:root {
+  --main-bg: #f2f6fa;
+  --card-bg: #fffafa;
+  --header-text: #ffff;
+  --header-bg: #2c2c2c;
+  --c-main-text: #2c2c2c;
+  // ====
+  --c-blue: #2060f6;
+  --c-dark-blue: #1a4fc9;
+  --c-gray: #6c788b;
+  --jobs-gap: 30px;
+}
+
+body.dark {
+  --main-bg: #0c2233;
+  --header-bg: #020205;
+  --card-bg: #083d56;
+  --header-text: #ffff;
+  --c-main-text: #dbd8e3;
+}
+
 body {
   margin: 0;
 }
@@ -10,7 +31,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: $main-bg;
+  background-color: var(--main-bg);
 }
 
 main {
@@ -18,7 +39,7 @@ main {
 }
 
 .button {
-  background-color: $c-blue;
+  background-color: var(--c-blue);
   padding: 8px 10px;
   font-family: Poppins, sans-serif;
   font-size: 14px;
@@ -26,7 +47,7 @@ main {
   text-decoration: none;
   border-radius: 10px;
   transition: background-color 200ms;
-  color: $c-white;
+  color: var(--header-text);
 
   @include onDesktop {
     font-size: 18px;
@@ -35,7 +56,7 @@ main {
   }
 
   &:hover {
-    background-color: $c-dark-blue;
+    background-color: var(--c-dark-blue);
   }
 }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import IconLogin from './icons/IconLogin.vue';
 import IconUser from './icons/IconUser.vue';
+import TogleTheme from './TogleTheme.vue';
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import IconUser from './icons/IconUser.vue';
         <h1 class="title">Ultimate Job</h1>
       </div>
       <div class="header__buttons">
+        <TogleTheme />
         <RouterLink v-if="true" :to="'#'" class="button clickable">
           Post a Job
         </RouterLink>
@@ -27,10 +29,9 @@ import IconUser from './icons/IconUser.vue';
 
 <style scoped lang="scss">
 @import '../styles/mixins.scss';
-@import '../styles/vars.scss';
 
 .header {
-  background-color: #2c2c2c;
+  background-color: var(--header-bg);
 
   &__logos {
     gap: 10px;
@@ -38,6 +39,7 @@ import IconUser from './icons/IconUser.vue';
 
   &__buttons {
     display: flex;
+    align-items: center;
     gap: 10px;
     @include onTablet {
       gap: 20px;
@@ -50,7 +52,7 @@ import IconUser from './icons/IconUser.vue';
   margin: 0;
   font-family: Poppins, sans-serif;
   font-weight: 400;
-  color: $c-white;
+  color: var(--header-text);
 
   @include onTablet {
     display: block;
