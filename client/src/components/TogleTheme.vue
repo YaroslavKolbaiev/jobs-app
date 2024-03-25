@@ -1,12 +1,27 @@
 <script setup lang="ts">
 import IconSun from './icons/IconSun.vue';
 import IconMoon from './icons/IconMoon.vue';
-import { ref } from 'vue';
-const isDark = ref(false);
+import { useLocalStorage } from '../composables/useLocalStorage';
+import { ref, onMounted } from 'vue';
+
+const { data, setLocalStorage } = useLocalStorage('isDark', false);
+
+const isDark = ref(data);
 
 const toggleTheme = () => {
+  if (isDark.value) {
+    setLocalStorage(true);
+  } else {
+    setLocalStorage(false);
+  }
   document.body.classList.toggle('dark', isDark.value);
 };
+
+onMounted(() => {
+  if (data) {
+    document.body.classList.toggle('dark', isDark.value);
+  }
+});
 </script>
 
 <template>

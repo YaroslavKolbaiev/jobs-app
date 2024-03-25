@@ -5,13 +5,18 @@
 :root {
   --main-bg: #f2f6fa;
   --card-bg: #fffafa;
-  --header-text: #ffff;
   --header-bg: #2c2c2c;
+
+  --header-text: #ffff;
   --c-main-text: #2c2c2c;
-  // ====
+
   --c-blue: #2060f6;
   --c-dark-blue: #1a4fc9;
   --c-gray: #6c788b;
+
+  --skeleton-line1: #e0e0e0;
+  --skeleton-line2: #f0f0f0;
+
   --jobs-gap: 30px;
 }
 
@@ -19,8 +24,12 @@ body.dark {
   --main-bg: #0c2233;
   --header-bg: #020205;
   --card-bg: #083d56;
+
   --header-text: #ffff;
   --c-main-text: #dbd8e3;
+
+  --skeleton-line1: #233142;
+  --skeleton-line2: #455d7a;
 }
 
 body {
@@ -48,6 +57,7 @@ main {
   border-radius: 10px;
   transition: background-color 200ms;
   color: var(--header-text);
+  border: none;
 
   @include onDesktop {
     font-size: 18px;

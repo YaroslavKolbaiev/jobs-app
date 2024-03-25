@@ -7,11 +7,13 @@ import TogleTheme from './TogleTheme.vue';
 <template>
   <header class="header">
     <div class="flex-between-center container">
-      <div class="header__logos flex-between-center">
-        <img class="logo" src="../assets/logo.svg" alt="logo" />
+      <div class="logos flex-between-center">
+        <RouterLink class="logo" :to="'/'">
+          <img src="../assets/logo.svg" alt="logo" />
+        </RouterLink>
         <h1 class="title">Ultimate Job</h1>
       </div>
-      <div class="header__buttons">
+      <div class="buttons">
         <TogleTheme />
         <RouterLink v-if="true" :to="'#'" class="button clickable">
           Post a Job
@@ -32,18 +34,35 @@ import TogleTheme from './TogleTheme.vue';
 
 .header {
   background-color: var(--header-bg);
+}
 
-  &__logos {
-    gap: 10px;
+.logos {
+  gap: 10px;
+}
+
+.logo {
+  display: flex;
+  @include square_32;
+
+  @include onTablet {
+    @include square_48;
   }
 
-  &__buttons {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    @include onTablet {
-      gap: 20px;
-    }
+  @include onDesktop {
+    @include square_64;
+  }
+
+  & > img {
+    border-radius: 50%;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  @include onTablet {
+    gap: 20px;
   }
 }
 
@@ -56,19 +75,6 @@ import TogleTheme from './TogleTheme.vue';
 
   @include onTablet {
     display: block;
-  }
-}
-
-.logo {
-  @include square_32;
-  border-radius: 50%;
-
-  @include onTablet {
-    @include square_48;
-  }
-
-  @include onDesktop {
-    @include square_64;
   }
 }
 

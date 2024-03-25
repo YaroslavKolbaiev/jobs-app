@@ -36,7 +36,9 @@ def getTopicStats(request, topic):
 @api_view(["GET"])
 def getJobs(request):
     # This line is responsible for filtering the Job objects based on the query parameters.
-    filterset = JobsFilter(request.GET, queryset=Job.objects.all())
+    filterset = JobsFilter(
+        request.GET, queryset=Job.objects.all().order_by("-created_at")
+    )
     # Total number of jobs
     total_jobs = filterset.qs.count()
     # This line is responsible for paginating the filtered queryset.
@@ -61,8 +63,9 @@ def getJob(request, id):
     # This line retrieves the Job object with the specified id from the database,
     # or raises a 404 Not Found error if no such object exists.
     job = get_object_or_404(Job, id=id)
+    candidates = CandidatesApplied.objects.filter(job=id).count()
     serializer = JobSerializer(job, many=False)
-    return Response(serializer.data)
+    return Response({"job": serializer.data, "candidates": candidates})
 
 
 @api_view(["GET"])
