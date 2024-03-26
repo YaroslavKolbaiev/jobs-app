@@ -6,6 +6,7 @@
   --main-bg: #f2f6fa;
   --card-bg: #fffafa;
   --header-bg: #2c2c2c;
+  --row-bg: #d3d3d3;
 
   --header-text: #ffff;
   --c-main-text: #2c2c2c;
@@ -24,6 +25,7 @@ body.dark {
   --main-bg: #0c2233;
   --header-bg: #020205;
   --card-bg: #083d56;
+  --row-bg: #134c6d;
 
   --header-text: #ffff;
   --c-main-text: #dbd8e3;
@@ -72,6 +74,31 @@ main {
 
 .clickable:active {
   transform: scale(0.9);
+}
+
+.job {
+  background-color: var(--card-bg);
+  padding: 20px;
+  border-radius: 10px;
+  font-family: Poppins, sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.details {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  flex-direction: column;
+
+  @include onTablet {
+    flex-direction: row;
+  }
+
+  @include onDesktop {
+    flex-direction: column;
+    margin: 0;
+  }
 }
 
 .container {

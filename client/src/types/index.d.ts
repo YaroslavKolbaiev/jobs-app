@@ -30,6 +30,13 @@ type GetJobResponse = {
   job: Job;
   candidates: number;
 };
+type InfoTableProps = {
+  jobType: string | undefined;
+  education: string | undefined;
+  industry: string | undefined;
+  experience: string | undefined;
+  salary: number | undefined;
+};
 
 type MainInfoProps = {
   title: string | undefined;
@@ -54,4 +61,5 @@ export {
   GetJobResponse,
   DetailsProps,
   MainInfoProps,
+  InfoTableProps,
 };

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import IconLocation from '@/components/icons/IconLocation.vue';
 import type { MainInfoProps } from '@/types';
 
 const { title, company, address, candidates, description } =
@@ -15,7 +16,8 @@ const { title, company, address, candidates, description } =
       {{ company }}
     </h2>
     <p class="adress">
-      {{ address }}
+      <IconLocation class="location" />
+      <span>{{ address }}</span>
     </p>
   </div>
 
@@ -61,6 +63,9 @@ const { title, company, address, candidates, description } =
 .adress {
   margin: 0;
   color: var(--c-gray);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
 }
 
 .candidates {
@@ -75,5 +80,11 @@ const { title, company, address, candidates, description } =
   & > strong {
     font-size: 20px;
   }
+}
+
+.location {
+  width: 24px;
+  min-width: 24px;
+  stroke: var(--c-main-text);
 }
 </style>
