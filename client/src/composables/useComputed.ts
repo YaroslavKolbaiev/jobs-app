@@ -38,7 +38,12 @@ function useComputed(data: Ref<GetJobResponse | null>) {
     return isExpired;
   });
 
-  return { mainInfoProps, jobDetailsProps, jobInfoTableProps, isExpired };
+  return {
+    mainInfoProps,
+    jobDetailsProps,
+    jobInfoTableProps,
+    isExpired,
+  };
 }
 
 export { useComputed };

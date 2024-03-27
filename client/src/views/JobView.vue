@@ -4,6 +4,7 @@ import ErrorToast from '@/components/ErrorToast.vue';
 import JobDetails from '@/components/Job/JobDetails.vue';
 import JobInfoTable from '@/components/Job/JobInfoTable.vue';
 import JobNote from '@/components/Job/JobNote.vue';
+import Map from '@/components/Map.vue';
 import JobViewSkeleton from '@/components/skeletones/JobViewSkeleton.vue';
 import JobNotFound from '@/components/Job/JobNotFound.vue';
 import { useRoute } from 'vue-router';
@@ -36,9 +37,12 @@ const { mainInfoProps, jobDetailsProps, jobInfoTableProps, isExpired } =
         <JobMainInfo v-bind="mainInfoProps" />
         <JobInfoTable v-bind="jobInfoTableProps" />
       </div>
-      <div class="details grid__item--9-12">
-        <JobDetails v-bind="jobDetailsProps" class="job" />
-        <JobNote v-if="!isExpired" class="job note" />
+      <div class="grid__item--9-12">
+        <div class="details">
+          <JobDetails v-bind="jobDetailsProps" class="job" />
+          <JobNote v-if="!isExpired" class="job note" />
+        </div>
+        <Map :point="data?.job.point" />
       </div>
     </div>
     <JobNotFound v-if="error" />

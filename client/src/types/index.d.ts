@@ -7,10 +7,11 @@ interface Job {
   salary: number;
   position: number;
   company: string | null;
-  point: {
-    type: string;
-    coordinates: [number, number];
-  };
+  // point: {
+  //   type: string;
+  //   coordinates: [number, number];
+  // };
+  point: string;
   lastDate: string;
   user: string | null;
   created_at: string;
