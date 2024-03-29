@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import IconSun from './icons/IconSun.vue';
-import IconMoon from './icons/IconMoon.vue';
-import { useLocalStorage } from '../composables/useLocalStorage';
+import IconSun from '../icons/IconSun.vue';
+import IconMoon from '../icons/IconMoon.vue';
+import { useLocalStorage } from '../../composables/useLocalStorage';
 import { ref, onMounted } from 'vue';
 
 const { data, setLocalStorage } = useLocalStorage('isDark', false);
@@ -36,7 +36,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import '../styles/mixins.scss';
+@import '../../styles/mixins.scss';
 
 figure {
   margin: 0;
@@ -99,7 +99,11 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(26px);
+  transform: translateX(20px);
+
+  @include onTablet {
+    transform: translateX(26px);
+  }
 }
 
 .slider.round {

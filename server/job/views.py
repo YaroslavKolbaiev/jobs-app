@@ -10,7 +10,7 @@ from .filters import JobsFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 
-JOBS_PER_PAGE = 2
+JOBS_PER_PAGE = 4
 
 
 @api_view(["GET"])

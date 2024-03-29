@@ -7,28 +7,28 @@ const { title, company, address, candidates, description } =
 </script>
 
 <template>
-  <h1 class="title">
+  <h1 class="mainInfo__title">
     {{ title }}
   </h1>
 
-  <div class="wrapper">
+  <div class="mainInfo">
     <h2 class="name">
       {{ company }}
     </h2>
-    <p class="adress">
-      <IconLocation class="location" />
+    <p class="mainInfo__adress">
+      <IconLocation class="mainInfo__location" />
       <span>{{ address }}</span>
     </p>
   </div>
 
-  <div class="wrapper">
+  <div class="mainInfo">
     <button class="button clickable" type="button">Apply Now</button>
-    <span class="candidates"
+    <span class="mainInfo__candidates"
       >{{ candidates }} Candidates have applied for this job</span
     >
   </div>
 
-  <p class="description">
+  <p class="mainInfo__description">
     <strong>Description:</strong>
     <br />
     {{ description }}
@@ -36,14 +36,9 @@ const { title, company, address, candidates, description } =
 </template>
 
 <style scoped lang="scss">
-@import '../../styles/mixins.scss';
+@import '&__/&__/styles/mixins&__scss';
 
-.title {
-  color: var(--c-main-text);
-  margin: 0;
-}
-
-.wrapper {
+.mainInfo {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -53,38 +48,43 @@ const { title, company, address, candidates, description } =
     flex-direction: row;
     align-items: center;
   }
-}
 
-.name {
-  margin: 0;
-  color: var(--c-blue);
-}
-
-.adress {
-  margin: 0;
-  color: var(--c-gray);
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-}
-
-.candidates {
-  color: #228b22;
-}
-
-.description {
-  margin: 0;
-  font-size: 14px;
-  color: var(--c-main-text);
-
-  & > strong {
-    font-size: 20px;
+  &__title {
+    color: var(--c-main-text);
+    margin: 0;
   }
-}
 
-.location {
-  width: 24px;
-  min-width: 24px;
-  stroke: var(--c-main-text);
+  &__name {
+    margin: 0;
+    color: var(--c-blue);
+  }
+
+  &__adress {
+    margin: 0;
+    color: var(--c-gray);
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  &__candidates {
+    color: #228b22;
+  }
+
+  &__description {
+    margin: 0;
+    font-size: 14px;
+    color: var(--c-main-text);
+
+    & > strong {
+      font-size: 20px;
+    }
+  }
+
+  &__location {
+    width: 24px;
+    min-width: 24px;
+    stroke: var(--c-main-text);
+  }
 }
 </style>

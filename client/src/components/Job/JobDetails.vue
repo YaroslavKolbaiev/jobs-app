@@ -15,16 +15,16 @@ const formattedLastDate = computed(() =>
 
 <template>
   <div>
-    <h3 class="title">More Details</h3>
+    <h3 class="details__title">More Details</h3>
 
     <hr />
 
-    <div class="wrapper">
+    <div class="details">
       <p>Email Adress</p>
       <span>{{ props.email }}</span>
     </div>
 
-    <div class="wrapper">
+    <div class="details">
       <p>Job Posted</p>
       <span>{{ formattedCreatedAt }}</span>
     </div>
@@ -37,13 +37,13 @@ const formattedLastDate = computed(() =>
 </template>
 
 <style scoped lang="scss">
-.title {
-  margin: 0;
-  color: var(--c-main-text);
-}
-
-.wrapper {
+.details {
   margin-bottom: 15px;
+
+  &__title {
+    margin: 0;
+    color: var(--c-main-text);
+  }
 }
 
 hr {

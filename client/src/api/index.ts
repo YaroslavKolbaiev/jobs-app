@@ -5,14 +5,19 @@ const BASE_URL = 'http://localhost:8000';
 const jobsCache: Record<string, GetJobsResponse> = {};
 const jobCache: Record<string, GetJobResponse> = {};
 
-async function getJobs(page: string = '1') {
-  const key = 'page-' + page;
+async function getJobs(
+  page: string = '1',
+  query: Record<string, string | number> = {}
+) {
+  const key = `${page}-${JSON.stringify(query)}`;
   if (jobsCache[key]) {
     return jobsCache[key];
   }
 
+  const queryString = new URLSearchParams({ page, ...query }).toString();
+
   const response = await axios.get<GetJobsResponse>(
-    `${BASE_URL}/api/jobs/?page=${page}`
+    `${BASE_URL}/api/jobs/?${queryString}`
   );
 
   const data = response.data;

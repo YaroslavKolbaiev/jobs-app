@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { getJobs } from '../api';
-import type { GetJobsResponse } from '@/types';
-import CardSkeleton from './skeletones/CardSkeleton.vue';
+import { getJobs } from '../../api';
+import type { GetJobsResponse } from '../../types';
+import CardSkeleton from '../skeletones/CardSkeleton.vue';
 import JobCard from './JobCard.vue';
-import ErrorToast from './ErrorToast.vue';
-import useFetchData from '../composables/useFetchData';
+import ErrorToast from '../ErrorToast.vue';
+import useFetchData from '../../composables/useFetchData';
 
 const { data, doRequest, isLoading, error } = useFetchData<GetJobsResponse>(
   () => getJobs()
@@ -35,13 +35,13 @@ doRequest();
 </template>
 
 <style scoped lang="scss">
-@import '../styles/mixins.scss';
+@import '../../styles/mixins.scss';
 
 .jobs {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: Poppins, sans-serif;
+
   gap: var(--jobs-gap);
 
   @include onTablet {

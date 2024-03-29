@@ -6,7 +6,6 @@ import JobInfoTable from '@/components/Job/JobInfoTable.vue';
 import JobNote from '@/components/Job/JobNote.vue';
 import Map from '@/components/Map.vue';
 import JobViewSkeleton from '@/components/skeletones/JobViewSkeleton.vue';
-import JobNotFound from '@/components/Job/JobNotFound.vue';
 import { useRoute } from 'vue-router';
 import { getJob } from '@/api';
 import useFetchData from '@/composables/useFetchData';
@@ -38,22 +37,17 @@ const { mainInfoProps, jobDetailsProps, jobInfoTableProps, isExpired } =
         <JobInfoTable v-bind="jobInfoTableProps" />
       </div>
       <div class="grid__item--9-12">
-        <div class="details">
+        <div class="job-details">
           <JobDetails v-bind="jobDetailsProps" class="job" />
           <JobNote v-if="!isExpired" class="job note" />
         </div>
         <Map :point="data?.job.point" />
       </div>
     </div>
-    <JobNotFound v-if="error" />
   </main>
   <ErrorToast v-if="error" :error="error?.message" />
 </template>
 
 <style scoped lang="scss">
 @import '../styles/mixins.scss';
-
-.note {
-  background-color: rgba(255, 127, 127, 0.6);
-}
 </style>

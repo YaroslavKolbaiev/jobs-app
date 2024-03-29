@@ -17,7 +17,7 @@ const { isExpired } = defineProps<{ isExpired: boolean }>();
         <div class="skeleton line short" />
       </div>
     </div>
-    <div class="details grid__item--9-12">
+    <div class="job-details grid__item--9-12">
       <div class="job">
         <div v-for="item in 5" :key="item" class="skeleton line" />
       </div>

@@ -4,4 +4,10 @@ function wait(delay: number) {
   });
 }
 
-export { wait };
+function slicer(chars: number, str: string | null) {
+  const isLongString = str.length > chars;
+
+  return isLongString ? str?.slice(0, chars) + '...' : str;
+}
+
+export { wait, slicer };

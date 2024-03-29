@@ -39,7 +39,6 @@ watchEffect(() => {
   color: white;
   padding: 25px;
   border-radius: 10px;
-  font-family: Poppins, sans-serif;
 
   & > div {
     display: flex;

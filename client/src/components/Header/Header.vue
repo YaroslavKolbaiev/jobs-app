@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import IconLogin from './icons/IconLogin.vue';
-import IconUser from './icons/IconUser.vue';
+import IconLogin from '../icons/IconLogin.vue';
+import IconUser from '../icons/IconUser.vue';
 import TogleTheme from './TogleTheme.vue';
 </script>
 
@@ -9,7 +9,7 @@ import TogleTheme from './TogleTheme.vue';
     <div class="flex-between-center container">
       <div class="logos flex-between-center">
         <RouterLink class="logo" :to="'/'">
-          <img src="../assets/logo.svg" alt="logo" />
+          <img src="../../assets/logo.svg" alt="logo" />
         </RouterLink>
         <h1 class="title">Ultimate Job</h1>
       </div>
@@ -30,7 +30,7 @@ import TogleTheme from './TogleTheme.vue';
 </template>
 
 <style scoped lang="scss">
-@import '../styles/mixins.scss';
+@import '../../styles/mixins.scss';
 
 .header {
   background-color: var(--header-bg);
@@ -69,7 +69,7 @@ import TogleTheme from './TogleTheme.vue';
 .title {
   display: none;
   margin: 0;
-  font-family: Poppins, sans-serif;
+
   font-weight: 400;
   color: var(--header-text);
 

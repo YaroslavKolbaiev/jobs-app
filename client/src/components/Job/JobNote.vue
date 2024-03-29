@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="note">
     <h3>Note</h3>
     <p>
       You may not longer apply to this job. This job is expired. Check out other
@@ -18,5 +18,9 @@ h3 {
 
 strong {
   color: var(--c-blue);
+}
+
+.note {
+  background-color: rgba(255, 127, 127, 0.6);
 }
 </style>

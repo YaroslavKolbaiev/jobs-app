@@ -28,10 +28,6 @@ const labels = [
 
 <style scoped lang="scss">
 @import '../../styles/mixins.scss';
-h4 {
-  margin-bottom: 10px;
-  color: var(--c-main-text);
-}
 
 table {
   width: 100%;
@@ -42,6 +38,11 @@ table {
   @include onTablet {
     font-size: 16px;
   }
+}
+
+h4 {
+  margin-bottom: 10px;
+  color: var(--c-main-text);
 }
 
 th {
