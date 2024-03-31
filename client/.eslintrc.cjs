@@ -18,7 +18,7 @@ module.exports = {
     'vue/multi-word-component-names': [
       'error',
       {
-        ignores: ['Header', 'About', 'Map'],
+        ignores: ['Header', 'About', 'Map', 'Pagination'],
       },
     ],
     'vue/no-multiple-template-root': 'off',

@@ -1,7 +1,3 @@
-<script setup lang="ts">
-const { isExpired } = defineProps<{ isExpired: boolean }>();
-</script>
-
 <template>
   <div>
     <div class="job grid__item--1-8">
@@ -21,7 +17,7 @@ const { isExpired } = defineProps<{ isExpired: boolean }>();
       <div class="job">
         <div v-for="item in 5" :key="item" class="skeleton line" />
       </div>
-      <div v-if="!isExpired" class="job">
+      <div class="job">
         <div v-for="item in 4" :key="item" class="skeleton line" />
       </div>
     </div>

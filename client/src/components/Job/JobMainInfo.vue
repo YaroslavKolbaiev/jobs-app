@@ -2,7 +2,7 @@
 import IconLocation from '@/components/icons/IconLocation.vue';
 import type { MainInfoProps } from '@/types';
 
-const { title, company, address, candidates, description } =
+const { title, company, address, description, candidates } =
   defineProps<MainInfoProps>();
 </script>
 
@@ -36,7 +36,7 @@ const { title, company, address, candidates, description } =
 </template>
 
 <style scoped lang="scss">
-@import '&__/&__/styles/mixins&__scss';
+@import '../../styles/mixins.scss';
 
 .mainInfo {
   display: flex;

@@ -18,7 +18,7 @@ watchEffect(() => {
 
 <template>
   <transition name="slide">
-    <div v-if="visible" class="error-toast">
+    <div v-if="visible" class="toast">
       <div>
         <IconError />
         <span>Oopssss....</span>
@@ -29,7 +29,8 @@ watchEffect(() => {
 </template>
 
 <style scoped lang="scss">
-.error-toast {
+.toast {
+  z-index: 10;
   position: fixed;
   min-width: 240px;
   bottom: 20px;

@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import type { DetailsProps } from '@/types';
 import dayjs from 'dayjs';
-import { computed } from 'vue';
 
-const props = defineProps<DetailsProps>();
+const { created_at, lastDate, email } = defineProps<DetailsProps>();
 
-const formattedCreatedAt = computed(() =>
-  dayjs(props.createdAt).format('DD-MM-YYYY')
-);
-const formattedLastDate = computed(() =>
-  dayjs(props.lastDate).format('DD-MM-YYYY')
-);
+const formattedCreatedAt = dayjs(created_at).format('DD-MM-YYYY');
+
+const formattedLastDate = dayjs(lastDate).format('DD-MM-YYYY');
 </script>
 
 <template>
@@ -21,7 +17,7 @@ const formattedLastDate = computed(() =>
 
     <div class="details">
       <p>Email Adress</p>
-      <span>{{ props.email }}</span>
+      <span>{{ email }}</span>
     </div>
 
     <div class="details">

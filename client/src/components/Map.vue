@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Loader } from '@googlemaps/js-api-loader';
-import { onMounted } from 'vue';
 
 const { point } = defineProps<{
   point: string | undefined;
@@ -18,19 +17,17 @@ const location = point?.split('(')[1].split(')')[0].split(' ');
 const lat = location ? +location[1] : 0;
 const lng = location ? +location[0] : 0;
 
-onMounted(() => {
-  loader.load().then(async () => {
-    const { Map } = (await google.maps.importLibrary(
-      'maps'
-    )) as google.maps.MapsLibrary;
-    const map = new Map(document.getElementById('map') as HTMLElement, {
-      center: { lat, lng },
-      zoom: 15,
-    });
-    new google.maps.Marker({
-      position: { lat, lng },
-      map,
-    });
+loader.load().then(async () => {
+  const { Map } = (await google.maps.importLibrary(
+    'maps'
+  )) as google.maps.MapsLibrary;
+  const map = new Map(document.getElementById('map') as HTMLElement, {
+    center: { lat, lng },
+    zoom: 15,
+  });
+  new google.maps.Marker({
+    position: { lat, lng },
+    map,
   });
 });
 </script>

@@ -1,4 +1,4 @@
-import { ref, onMounted, type UnwrapRef } from 'vue';
+import { ref, type UnwrapRef } from 'vue';
 // import { wait } from '@/utils';
 
 export default function useFetchData<T>(handler: () => Promise<T>) {
@@ -7,21 +7,24 @@ export default function useFetchData<T>(handler: () => Promise<T>) {
 
   const data = ref<T | null>(null);
 
-  const doRequest = () => {
-    onMounted(async () => {
-      isLoading.value = true;
-      try {
-        // await wait(3000);
-        data.value = (await handler()) as UnwrapRef<T>;
-      } catch (err) {
-        if (err instanceof Error) {
-          error.value = err;
-        }
-      } finally {
-        isLoading.value = false;
+  const doRequest = async () => {
+    isLoading.value = true;
+    try {
+      // await wait(3000);
+      data.value = (await handler()) as UnwrapRef<T>;
+    } catch (err) {
+      if (err instanceof Error) {
+        error.value = err;
       }
-    });
+    } finally {
+      isLoading.value = false;
+    }
   };
 
-  return { doRequest, error, isLoading, data };
+  return {
+    doRequest,
+    error,
+    isLoading,
+    data,
+  };
 }

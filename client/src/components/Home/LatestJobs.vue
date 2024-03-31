@@ -2,13 +2,22 @@
 import { getJobs } from '../../api';
 import type { GetJobsResponse } from '../../types';
 import CardSkeleton from '../skeletones/CardSkeleton.vue';
+import Pagination from '@/components/Pagination.vue';
 import JobCard from './JobCard.vue';
 import ErrorToast from '../ErrorToast.vue';
 import useFetchData from '../../composables/useFetchData';
+import { watch } from 'vue';
+import { useComputedPage } from '@/composables/useComputed';
+
+const { page } = useComputedPage();
 
 const { data, doRequest, isLoading, error } = useFetchData<GetJobsResponse>(
-  () => getJobs()
+  () => getJobs(page.value)
 );
+
+watch(page, () => {
+  doRequest();
+});
 
 doRequest();
 </script>
@@ -24,13 +33,16 @@ doRequest();
     <JobCard
       v-for="({ id, title, description, industry }, index) in data?.jobs"
       :key="id"
-      :id="id"
-      :title="title"
-      :description="description"
-      :industry="industry"
+      v-bind="{ id, title, description, industry }"
       :class="{ elevated: index % 2 != 0 }"
     />
   </div>
+  <Pagination
+    :key="`${data?.total_jobs}-${page}-${data?.jobs_per_page}`"
+    :total_jobs="data?.total_jobs"
+    :jobs_per_page="data?.jobs_per_page"
+    :page="page"
+  />
   <ErrorToast v-if="error" :error="error?.message" />
 </template>
 

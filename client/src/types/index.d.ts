@@ -21,6 +21,10 @@ interface Job {
   experience: string;
 }
 
+interface QueryParams<T> {
+  [key: string]: T;
+}
+
 type GetJobsResponse = {
   jobs: Job[];
   total_jobs: number;
@@ -28,7 +32,8 @@ type GetJobsResponse = {
 };
 
 type GetJobResponse = {
-  job: Job;
+  // job: Job;
+  job: Job | null;
   candidates: number;
 };
 type InfoTableProps = {
@@ -49,7 +54,7 @@ type MainInfoProps = {
 
 type DetailsProps = {
   email: string | undefined;
-  createdAt: string | undefined;
+  created_at: string | undefined;
   lastDate: string | undefined;
 };
 
@@ -63,4 +68,5 @@ export {
   DetailsProps,
   MainInfoProps,
   InfoTableProps,
+  QueryParams,
 };

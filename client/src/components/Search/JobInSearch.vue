@@ -21,7 +21,7 @@ const { jobs } = defineProps<{ jobs: Job[] | undefined }>();
     >
       <div class="results__text">
         <h1>{{ job.title }}</h1>
-        <p>{{ slicer(320, job.description) }}</p>
+        <p>{{ slicer(320, job.description || '') }}</p>
       </div>
 
       <div class="results__icons">

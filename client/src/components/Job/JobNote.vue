@@ -1,5 +1,11 @@
+<script setup lang="ts">
+const { lastDate } = defineProps<{ lastDate: string }>();
+
+const isExpired = new Date(lastDate) > new Date();
+</script>
+
 <template>
-  <div class="note">
+  <div v-if="!isExpired" class="note">
     <h3>Note</h3>
     <p>
       You may not longer apply to this job. This job is expired. Check out other
