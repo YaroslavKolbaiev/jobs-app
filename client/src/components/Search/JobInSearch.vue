@@ -73,7 +73,6 @@ p {
   gap: var(--results-gap);
 
   @include onDesktop {
-    flex-wrap: nowrap;
     justify-content: space-between;
   }
 

@@ -1,3 +1,5 @@
+import { JobType, Education, Industry, SalaryRange } from '@/enums';
+
 function wait(delay: number) {
   return new Promise<void>((resolve) => {
     setTimeout(resolve, delay);
@@ -27,4 +29,26 @@ function range(count: number, start = 1) {
   return Array.from(new Array(count), (x, i) => i + start);
 }
 
-export { wait, slicer, getVisiblePages, defaultJob };
+function salaryParser(salary: string) {
+  let result = [];
+  if (salary.includes('-')) {
+    result = salary.split('-').map((s) => s.trim().slice(0, -1));
+    return result;
+  }
+
+  salary = salary.split('>')[0].trim().slice(0, -1);
+
+  result = [salary, ''];
+
+  return result;
+}
+
+const filters = {
+  jobType: Object.values(JobType),
+  education: Object.values(Education),
+  industry: Object.values(Industry),
+  salary: Object.values(SalaryRange),
+  hidden: false,
+};
+
+export { wait, slicer, getVisiblePages, salaryParser, filters };

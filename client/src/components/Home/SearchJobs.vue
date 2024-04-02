@@ -30,12 +30,7 @@ const submitForm = () => {
         <IconSearch />
       </div>
       <div class="search-wrapper">
-        <input
-          type="text"
-          v-model="location"
-          placeholder="Enter Your City"
-          required
-        />
+        <input type="text" v-model="location" placeholder="Enter Your City" />
         <IconCity />
       </div>
       <button class="button clickable" type="submit">Search</button>

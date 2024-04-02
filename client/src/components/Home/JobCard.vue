@@ -12,7 +12,7 @@ const { id, title, description, industry } = defineProps<CardProps>();
       {{ title }}
     </h4>
     <p class="jobCard__description">
-      {{ description ? slicer(180, description) + '...' : 'No description' }}
+      {{ description ? slicer(180, description) : 'No description' }}
     </p>
     <p class="jobCard__industry">
       {{ industry }}

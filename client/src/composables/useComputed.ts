@@ -10,7 +10,31 @@ function useComputedPage() {
     return query.page || '1';
   });
 
-  return { page };
+  const jobType = computed(() => {
+    const query = route.query as QueryParams<string>;
+
+    return query.jobType || '';
+  });
+
+  const education = computed(() => {
+    const query = route.query as QueryParams<string>;
+
+    return query.education || '';
+  });
+
+  const industry = computed(() => {
+    const query = route.query as QueryParams<string>;
+
+    return query.industry || '';
+  });
+
+  const salary = computed(() => {
+    const query = route.query as QueryParams<string>;
+
+    return query.salary;
+  });
+
+  return { page, jobType, education, industry, salary };
 }
 
 export { useComputedPage };

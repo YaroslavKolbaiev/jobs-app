@@ -31,6 +31,7 @@ doRequest();
       :class="{ elevated: index % 2 === 0 }"
     />
     <JobCard
+      v-else
       v-for="({ id, title, description, industry }, index) in data?.jobs"
       :key="id"
       v-bind="{ id, title, description, industry }"

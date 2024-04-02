@@ -1,5 +1,5 @@
 import { ref, type UnwrapRef } from 'vue';
-// import { wait } from '@/utils';
+import { wait } from '@/utils';
 
 export default function useFetchData<T>(handler: () => Promise<T>) {
   const error = ref<Error | null>(null);

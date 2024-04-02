@@ -4,11 +4,14 @@ import ErrorToast from '@/components/ErrorToast.vue';
 import NoSearchResults from '@/components/Search/NoSearchResults.vue';
 import SerchViewSkeleton from '@/components/skeletones/SerchViewSkeleton.vue';
 import Pagination from '@/components/Pagination.vue';
+import Filters from '@/components/Search/Filters.vue';
 import { getJobs } from '@/api';
+import { salaryParser } from '@/utils';
 import useFetchData from '@/composables/useFetchData';
 import type { GetJobsResponse, QueryParams } from '@/types';
 import { useRoute } from 'vue-router';
 import { useComputedPage } from '@/composables/useComputed';
+import { watch } from 'vue';
 
 const route = useRoute();
 const query = route.query as unknown as QueryParams<string>;
@@ -16,13 +19,26 @@ const query = route.query as unknown as QueryParams<string>;
 const keyword = query.keyword;
 const location = query.location;
 
-const { page } = useComputedPage();
+const { page, jobType, education, industry, salary } = useComputedPage();
 
 const { data, doRequest, isLoading, error } = useFetchData<GetJobsResponse>(
-  () => getJobs('1', { keyword, location })
+  () =>
+    getJobs(page.value, {
+      keyword,
+      location,
+      jobType: jobType.value,
+      education: education.value,
+      industry: industry.value,
+      min_salary: salary.value && salaryParser(salary.value)[0],
+      max_salary: salary.value && salaryParser(salary.value)[1],
+    })
 );
 
 doRequest();
+
+watch([page, jobType, education, industry, salary], () => {
+  doRequest();
+});
 </script>
 
 <template>
@@ -30,8 +46,9 @@ doRequest();
     <div class="container">
       <h2>Results for:</h2>
       <span>{{ keyword }} jobs in {{ location }}</span>
+      <Filters />
       <SerchViewSkeleton v-if="isLoading" />
-      <JobInSearch v-if="!isLoading" :jobs="data?.jobs" />
+      <JobInSearch v-else :jobs="data?.jobs" />
       <NoSearchResults v-if="!data?.jobs.length && !isLoading" />
       <Pagination
         :key="`${data?.total_jobs}-${page}-${data?.jobs_per_page}`"
