@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth';
 import IconLogin from '../icons/IconLogin.vue';
 import IconUser from '../icons/IconUser.vue';
 import TogleTheme from './TogleTheme.vue';
+
+const useAuth = useAuthStore();
 </script>
 
 <template>
@@ -18,11 +21,15 @@ import TogleTheme from './TogleTheme.vue';
         <RouterLink v-if="true" :to="'#'" class="button clickable">
           Post a Job
         </RouterLink>
-        <RouterLink v-if="false" :to="'#'" class="login clickable">
-          <IconLogin />
-        </RouterLink>
-        <RouterLink v-if="true" :to="'#'" class="login clickable">
+        <RouterLink
+          v-if="useAuth.isAuthenticated"
+          :to="'#'"
+          class="login clickable"
+        >
           <IconUser />
+        </RouterLink>
+        <RouterLink v-else :to="'/login'" class="login clickable">
+          <IconLogin />
         </RouterLink>
       </div>
     </div>

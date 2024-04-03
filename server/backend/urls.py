@@ -29,7 +29,7 @@ from job.views import (
     getUserCreatedJobs,
     getCandidatesPerJob,
 )
-from account.views import register, current_user, update_user, uploadResume
+from account.views import register, current_user, update_user, uploadResume, login
 
 # Build in
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenVerifyView
@@ -48,7 +48,7 @@ urlpatterns = [
     # Auth
     path("api/auth/register", register, name="register"),
     # Build in LOGIN functionality. Response sends access and refresh tokens
-    path("api/auth/token", TokenObtainPairView.as_view(), name="token-obtain-pair"),
+    path("api/auth/token", login, name="token-obtain-pair"),
     path("api/token/verify", TokenVerifyView.as_view()),
     path("api/me/", current_user, name="current-user"),
     path("api/auth/update", update_user, name="update-user"),

@@ -44,11 +44,18 @@ doRequest();
     :jobs_per_page="data?.jobs_per_page"
     :page="page"
   />
-  <ErrorToast v-if="error" :error="error?.message" />
+  <transition name="slide">
+    <ErrorToast
+      v-if="error"
+      :error="error?.message"
+      @clear-error="error = null"
+    />
+  </transition>
 </template>
 
 <style scoped lang="scss">
 @import '../../styles/mixins.scss';
+@import '../../styles/transitions/slide.scss';
 
 .jobs {
   display: flex;

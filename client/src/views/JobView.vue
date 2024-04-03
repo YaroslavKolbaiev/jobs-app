@@ -23,7 +23,7 @@ doRequest();
 <template>
   <main>
     <JobViewSkeleton v-if="isLoading" class="container grid" />
-    <div v-if="!error && !isLoading" class="container grid">
+    <div v-if="!isLoading" class="container grid">
       <div class="job grid__item--1-8">
         <JobMainInfo
           :title="data?.job?.title"
@@ -54,9 +54,15 @@ doRequest();
       </div>
     </div>
   </main>
-  <ErrorToast v-if="error" :error="error?.message" />
+  <transition name="slide">
+    <ErrorToast
+      v-if="error"
+      :error="error?.message"
+      @clear-error="error = null"
+    />
+  </transition>
 </template>
 
 <style scoped lang="scss">
-@import '../styles/mixins.scss';
+@import '../styles/transitions/slide.scss';
 </style>

@@ -1,5 +1,5 @@
 from .validators import validate_file_extension
-from django.shortcuts import render
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from .serializer import SignUpSerializer, UserSerializer
 from django.contrib.auth.models import User
 from rest_framework.response import Response
@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -33,6 +34,35 @@ def register(request):
         return Response({"message": "User registered"}, status=status.HTTP_201_CREATED)
     else:
         return Response(sign_up_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def login(request):
+    data = request.data
+    email = data.get("email")
+    password = data.get("password")
+
+    user = get_object_or_404(User, email=email)
+
+    if not user.check_password(password):
+        return Response(
+            {"error": "Invalid password"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    # refresh = RefreshToken.for_user(user)
+    access = AccessToken.for_user(user)
+
+    response = Response(
+        {"message": "Login successful"},
+        status=status.HTTP_200_OK,
+    )
+
+    # Set the cookie
+    response.set_cookie(
+        "access_token", str(access), max_age=60 * 60 * 24, httponly=True
+    )
+    # response.set_cookie('refresh_token', str(refresh), httponly=True)
+    return response
 
 
 @api_view(["GET"])

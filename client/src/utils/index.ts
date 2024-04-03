@@ -43,6 +43,33 @@ function salaryParser(salary: string) {
   return result;
 }
 
+function getCookie(id: string) {
+  const value = document.cookie.match('(^|;)?' + id + '=([^;]*)(;|$)');
+  return value ? unescape(value[2]) : null;
+}
+
+function validateEmail(value: string) {
+  if (!value) {
+    return 'Email is required';
+  }
+
+  const emailPattern = /^[\w.+-]+@([\w-]+\.){1,3}[\w-]{2,}$/;
+
+  if (!emailPattern.test(value)) {
+    return 'Email is not valid';
+  }
+}
+
+function validatePassword(value: string) {
+  if (!value) {
+    return 'Password is required';
+  }
+
+  if (value.length < 6) {
+    return 'At least 6 characters';
+  }
+}
+
 const filters = {
   jobType: Object.values(JobType),
   education: Object.values(Education),
@@ -51,4 +78,13 @@ const filters = {
   hidden: false,
 };
 
-export { wait, slicer, getVisiblePages, salaryParser, filters };
+export {
+  wait,
+  slicer,
+  getVisiblePages,
+  salaryParser,
+  getCookie,
+  validateEmail,
+  validatePassword,
+  filters,
+};
