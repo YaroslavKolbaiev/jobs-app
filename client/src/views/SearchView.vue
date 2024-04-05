@@ -5,7 +5,7 @@ import NoSearchResults from '@/components/Search/NoSearchResults.vue';
 import SerchViewSkeleton from '@/components/skeletones/SerchViewSkeleton.vue';
 import Pagination from '@/components/Pagination.vue';
 import Filters from '@/components/Search/Filters.vue';
-import { getJobs } from '@/api';
+import { getJobs } from '@/api/jobs';
 import { salaryParser } from '@/utils';
 import useFetchData from '@/composables/useFetchData';
 import type { GetJobsResponse, QueryParams } from '@/types';
@@ -79,3 +79,4 @@ span {
   color: var(--c-blue);
 }
 </style>
+@/api/jobs

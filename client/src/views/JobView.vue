@@ -7,7 +7,7 @@ import JobNote from '@/components/Job/JobNote.vue';
 import Map from '@/components/Map.vue';
 import JobViewSkeleton from '@/components/skeletones/JobViewSkeleton.vue';
 import { useRoute } from 'vue-router';
-import { getJob } from '@/api';
+import { getJob } from '@/api/jobs';
 import useFetchData from '@/composables/useFetchData';
 import type { GetJobResponse } from '@/types';
 
@@ -65,4 +65,5 @@ doRequest();
 
 <style scoped lang="scss">
 @import '../styles/transitions/slide.scss';
+@import '../styles/job.scss';
 </style>

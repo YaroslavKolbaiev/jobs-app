@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="placeholder-icon"
+    class="form__icon form__icon--search"
     width="18px"
     height="18px"
     viewBox="0 0 50 50"

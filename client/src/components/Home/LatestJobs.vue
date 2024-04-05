@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getJobs } from '../../api';
+import { getJobs } from '@/api/jobs';
 import type { GetJobsResponse } from '../../types';
 import CardSkeleton from '../skeletones/CardSkeleton.vue';
 import Pagination from '@/components/Pagination.vue';
@@ -67,6 +67,7 @@ doRequest();
   @include onTablet {
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: stretch;
   }
 }
 

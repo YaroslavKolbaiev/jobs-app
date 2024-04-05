@@ -59,7 +59,10 @@ def login(request):
 
     # Set the cookie
     response.set_cookie(
-        "access_token", str(access), max_age=60 * 60 * 24, httponly=True
+        "access_token",
+        str(access),
+        max_age=60 * 60 * 24,
+        httponly=True,
     )
     # response.set_cookie('refresh_token', str(refresh), httponly=True)
     return response

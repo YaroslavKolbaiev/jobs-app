@@ -9,6 +9,7 @@
 
 <style scoped lang="scss">
 @import '../../styles/mixins.scss';
+@import '../../styles/skeletones.scss';
 
 .skeleton__card {
   width: 280px;

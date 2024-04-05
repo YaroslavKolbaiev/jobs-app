@@ -14,6 +14,8 @@
 
 <style scoped lang="scss">
 @import '../../styles/mixins.scss';
+@import '../../styles/skeletones.scss';
+
 .skeleton__card {
   padding: 20px;
   width: 100%;

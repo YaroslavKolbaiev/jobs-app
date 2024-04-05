@@ -26,6 +26,8 @@
 
 <style scoped lang="scss">
 @import '../../styles/mixins.scss';
+@import '../../styles/job.scss';
+@import '../../styles/skeletones.scss';
 
 .skeleton {
   border-radius: 20px;

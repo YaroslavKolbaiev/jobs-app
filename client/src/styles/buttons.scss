@@ -1,7 +1,8 @@
+@import './mixins.scss';
+
 .button {
   background-color: var(--c-blue);
   padding: 8px 10px;
-
   font-size: 14px;
   font-weight: 400;
   text-decoration: none;
@@ -18,6 +19,14 @@
 
   &:hover {
     background-color: var(--c-dark-blue);
+  }
+
+  &--form {
+    border-radius: 40px;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0;
+    height: var(--auth-btn-height);
   }
 }
 

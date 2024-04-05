@@ -37,6 +37,7 @@ const { title, company, address, description, candidates } =
 
 <style scoped lang="scss">
 @import '../../styles/mixins.scss';
+@import '../../styles/buttons.scss';
 
 .mainInfo {
   display: flex;

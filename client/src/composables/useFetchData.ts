@@ -10,7 +10,7 @@ export default function useFetchData<T>(handler: () => Promise<T>) {
   const doRequest = async () => {
     isLoading.value = true;
     try {
-      await wait(3000);
+      // await wait(3000);
       data.value = (await handler()) as UnwrapRef<T>;
     } catch (err) {
       if (err instanceof Error) {

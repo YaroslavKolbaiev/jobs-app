@@ -1,7 +1,4 @@
 @import './gridFlex.scss';
-@import './buttons.scss';
-@import './job.scss';
-@import './skeletones.scss';
 @import './mixins.scss';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600;700&family=Roboto:wght@400;700&display=swap');
 
@@ -29,6 +26,7 @@
   --py: 20px;
   --px-mobile: 20px;
   --py-mobile: 10px;
+  --auth-btn-height: 48px;
 }
 
 body.dark {

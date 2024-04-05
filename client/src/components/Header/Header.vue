@@ -38,6 +38,7 @@ const useAuth = useAuthStore();
 
 <style scoped lang="scss">
 @import '../../styles/mixins.scss';
+@import '../../styles/buttons.scss';
 
 .header {
   background-color: var(--header-bg);
