@@ -1,14 +1,14 @@
-from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from .models import Job, CandidatesApplied
 from .serializers import JobSerializer, CandidatesAppliedSerializer
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db.models import Count, Max, Min, Avg
 from .filters import JobsFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
+from account.decorators import authorized_only
 
 JOBS_PER_PAGE = 4
 
@@ -69,7 +69,7 @@ def getJob(request, id):
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+@authorized_only
 def getUserCreatedJobs(request):
     kwargs = {"user": request.user.id}
     jobs = Job.objects.filter(**kwargs)
@@ -78,7 +78,7 @@ def getUserCreatedJobs(request):
 
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
+@authorized_only
 def createJob(request):
     request.data["user"] = request.user
     data = request.data
@@ -90,7 +90,7 @@ def createJob(request):
 
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
+@authorized_only
 def applyForJob(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     user = request.user
@@ -127,7 +127,7 @@ def applyForJob(request, job_id):
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+@authorized_only
 def getUserAppliedJobs(request):
     user = request.user
 
@@ -139,7 +139,7 @@ def getUserAppliedJobs(request):
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+@authorized_only
 def getCandidatesPerJob(request, job_id):
     current_job = get_object_or_404(Job, id=job_id)
 
@@ -156,7 +156,7 @@ def getCandidatesPerJob(request, job_id):
 
 
 @api_view(["DELETE"])
-@permission_classes([IsAuthenticated])
+@authorized_only
 def deleteJob(request, id):
     job = get_object_or_404(Job, id=id)
     # Allow to update job only for the user who created the job
@@ -172,7 +172,7 @@ def deleteJob(request, id):
 
 
 @api_view(["PUT"])
-@permission_classes([IsAuthenticated])
+@authorized_only
 def updateJob(request, id):
     data = request.data
     job = get_object_or_404(Job, id=id)

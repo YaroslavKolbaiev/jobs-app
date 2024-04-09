@@ -8,7 +8,7 @@ import Map from '@/components/Map.vue';
 import JobViewSkeleton from '@/components/skeletones/JobViewSkeleton.vue';
 import { useRoute } from 'vue-router';
 import { getJob } from '@/api/jobs';
-import useFetchData from '@/composables/useFetchData';
+import useFetchData from '@/hooks/useFetchData';
 import type { GetJobResponse } from '@/types';
 
 const route = useRoute();

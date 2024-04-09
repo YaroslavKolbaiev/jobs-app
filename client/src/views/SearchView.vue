@@ -7,10 +7,10 @@ import Pagination from '@/components/Pagination.vue';
 import Filters from '@/components/Search/Filters.vue';
 import { getJobs } from '@/api/jobs';
 import { salaryParser } from '@/utils';
-import useFetchData from '@/composables/useFetchData';
+import useFetchData from '@/hooks/useFetchData';
 import type { GetJobsResponse, QueryParams } from '@/types';
 import { useRoute } from 'vue-router';
-import { useComputedPage } from '@/composables/useComputed';
+import { useComputedPage } from '@/hooks/useComputed';
 import { watch } from 'vue';
 
 const route = useRoute();
@@ -79,4 +79,3 @@ span {
   color: var(--c-blue);
 }
 </style>
-@/api/jobs

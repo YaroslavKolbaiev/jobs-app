@@ -21,6 +21,14 @@
     background-color: var(--c-dark-blue);
   }
 
+  &__disabled {
+    opacity: 0.6;
+
+    &:hover {
+      background-color: var(--c-blue);
+    }
+  }
+
   &--form {
     border-radius: 40px;
     font-size: 18px;

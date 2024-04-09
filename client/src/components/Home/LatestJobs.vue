@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { getJobs } from '@/api/jobs';
-import type { GetJobsResponse } from '../../types';
 import CardSkeleton from '../skeletones/CardSkeleton.vue';
 import Pagination from '@/components/Pagination.vue';
 import JobCard from './JobCard.vue';
 import ErrorToast from '../ErrorToast.vue';
-import useFetchData from '../../composables/useFetchData';
+import useFetchData from '@/hooks/useFetchData';
 import { watch } from 'vue';
-import { useComputedPage } from '@/composables/useComputed';
+import { useComputedPage } from '@/hooks/useComputed';
 
 const { page } = useComputedPage();
 
-const { data, doRequest, isLoading, error } = useFetchData<GetJobsResponse>(
-  () => getJobs(page.value)
+const { data, doRequest, isLoading, error } = useFetchData(() =>
+  getJobs(page.value)
 );
 
 watch(page, () => {

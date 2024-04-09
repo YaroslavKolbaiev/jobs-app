@@ -32,7 +32,7 @@ from job.views import (
 from account.views import register, current_user, update_user, uploadResume, login
 
 # Build in
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenVerifyView
+from rest_framework_simplejwt.views import TokenVerifyView
 
 urlpatterns = [
     path("admin/", admin.site.urls),

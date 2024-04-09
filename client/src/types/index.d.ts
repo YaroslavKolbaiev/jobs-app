@@ -21,9 +21,27 @@ interface Job {
   experience: string;
 }
 
+interface User {
+  email: string;
+  first_name: string;
+  last_name: string;
+  resume?: string;
+  username: string;
+}
+
+interface UserCredentials extends User {
+  password: string;
+  confirmPassword: string;
+}
+
 interface QueryParams<T> {
   [key: string]: T;
 }
+
+type GetUserResponse = {
+  data: User;
+  access_token: string;
+};
 
 type GetJobsResponse = {
   jobs: Job[];
@@ -69,4 +87,7 @@ export {
   MainInfoProps,
   InfoTableProps,
   QueryParams,
+  GetUserResponse,
+  User,
+  UserCredentials,
 };

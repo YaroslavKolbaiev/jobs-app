@@ -32,3 +32,18 @@ export enum SalaryRange {
   from60000to100000 = '100000$-150000$',
   above100000 = '150000$ >',
 }
+
+export enum InputNames {
+  Email = 'email',
+  FirstName = 'first_name',
+  LastName = 'last_name',
+  Username = 'username',
+}
+
+export const filters = {
+  jobType: Object.values(JobType),
+  education: Object.values(Education),
+  industry: Object.values(Industry),
+  salary: Object.values(SalaryRange),
+  hidden: false,
+};

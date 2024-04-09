@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import useFetchData from '@/composables/useFetchData';
+import useFetchData from '@/hooks/useFetchData';
 import ErrorToast from '@/components/ErrorToast.vue';
 import IconLoader from '@/components/icons/IconLoader.vue';
-import IconEye from '@/components/icons/IconEye.vue';
-import IconEyeX from '@/components/icons/IconEyeX.vue';
+import ShowPassword from '@/components/auth/ShowPassword.vue';
+import FormFooter from '@/components/auth/FormFooter.vue';
 import { login } from '@/api/auth';
 import { ref, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth';
@@ -15,7 +15,7 @@ const useAuth = useAuthStore();
 
 const email = ref('');
 const password = ref('');
-const showPasswprd = ref(false);
+const showPassword = ref(false);
 
 const { data, isLoading, error, doRequest } = useFetchData(() =>
   login(email.value, password.value)
@@ -25,7 +25,7 @@ watch(
   () => data.value,
   () => {
     if (data.value) {
-      useAuth.login();
+      useAuth.login(data.value.data);
 
       router.push('/');
     }
@@ -46,7 +46,7 @@ watch(
             class="form__input"
             name="email"
             type="text"
-            placeholder="Enter Your E-Mail"
+            placeholder="Enter Your email"
             v-model="email"
             required
           />
@@ -56,18 +56,14 @@ watch(
           <input
             class="form__input"
             name="password"
-            :type="showPasswprd ? 'text' : 'password'"
+            :type="showPassword ? 'text' : 'password'"
             v-model="password"
-            placeholder="Enter Your Password"
+            placeholder="Enter Your password"
           />
-          <button
-            class="show-password form__icon form__icon--password"
-            type="button"
-            @click="showPasswprd = !showPasswprd"
-          >
-            <IconEye v-if="!showPasswprd" />
-            <IconEyeX v-else />
-          </button>
+          <ShowPassword
+            @click="showPassword = !showPassword"
+            :show="showPassword"
+          />
         </div>
 
         <button
@@ -79,12 +75,7 @@ watch(
           <span v-else>Log In</span>
         </button>
 
-        <div class="no-account">
-          <p>Don't have an account?</p>
-          <RouterLink to="/register" class="register-link">
-            Sign Up
-          </RouterLink>
-        </div>
+        <FormFooter />
       </form>
     </div>
   </main>
@@ -104,24 +95,5 @@ watch(
 
 h2 {
   margin-top: 0;
-}
-
-.show-password {
-  border: none;
-  background: none;
-  padding: 0;
-  display: flex;
-  cursor: pointer;
-}
-
-.no-account {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.register-link {
-  color: var(--c-blue);
-  text-decoration: none;
 }
 </style>

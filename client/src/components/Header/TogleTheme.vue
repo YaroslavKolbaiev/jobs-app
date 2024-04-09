@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import IconSun from '../icons/IconSun.vue';
 import IconMoon from '../icons/IconMoon.vue';
-import { useLocalStorage } from '../../composables/useLocalStorage';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { ref, onMounted } from 'vue';
 
 const { data, setLocalStorage } = useLocalStorage('isDark', false);

@@ -1,16 +1,17 @@
+import type { User } from '@/types';
 import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore({
   id: 'auth',
-  state: () => ({
-    isAuthenticated: false,
+  state: (): { user: User | null } => ({
+    user: null,
   }),
   actions: {
-    login() {
-      this.isAuthenticated = true;
+    login(data: User) {
+      this.user = data;
     },
     logout() {
-      this.isAuthenticated = false;
+      this.user = null;
     },
   },
 });

@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
+from .decorators import authorized_only
 
 
 # Create your views here.
@@ -19,6 +20,11 @@ def register(request):
     if User.objects.filter(email=request.data["email"]).exists():
         return Response(
             {"message": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    if User.objects.filter(username=request.data["username"]).exists():
+        return Response(
+            {"message": "Username already taken"}, status=status.HTTP_400_BAD_REQUEST
         )
 
     # Check if the serializer is valid
@@ -49,36 +55,37 @@ def login(request):
             {"error": "Invalid password"}, status=status.HTTP_400_BAD_REQUEST
         )
 
-    # refresh = RefreshToken.for_user(user)
+    refresh = RefreshToken.for_user(user)
     access = AccessToken.for_user(user)
 
     response = Response(
-        {"message": "Login successful"},
+        {"message": "Login successful", "access_token": str(access)},
         status=status.HTTP_200_OK,
     )
 
     # Set the cookie
     response.set_cookie(
-        "access_token",
-        str(access),
-        max_age=60 * 60 * 24,
-        httponly=True,
+        "refresh_token", str(refresh), max_age=60 * 60 * 24 * 3, httponly=True
     )
-    # response.set_cookie('refresh_token', str(refresh), httponly=True)
     return response
 
 
 @api_view(["GET"])
 # Check if the user is authenticated
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
+@authorized_only
 def current_user(request):
     user = request.user
+    access = AccessToken.for_user(user)
     serializer = UserSerializer(user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(
+        {"data": serializer.data, "access_token": str(access)},
+        status=status.HTTP_200_OK,
+    )
 
 
 @api_view(["PUT"])
-@permission_classes([IsAuthenticated])
+@authorized_only
 def update_user(request):
     user = request.user
     data = request.data
@@ -94,7 +101,7 @@ def update_user(request):
 
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
+@authorized_only
 def uploadResume(request):
     user = request.user
 

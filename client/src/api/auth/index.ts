@@ -1,7 +1,40 @@
-import { validateEmail, validatePassword } from '@/utils';
+import {
+  validateEmail,
+  validatePassword,
+} from '@/services/formValidationService';
+import { accessTokenService } from '@/services/accessTokenService';
+import type { GetUserResponse, UserCredentials } from '@/types';
 import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
+
+async function register(userCredentials: UserCredentials) {
+  const errors = {
+    email: validateEmail(userCredentials.email),
+    password: validatePassword(userCredentials.password),
+  };
+
+  if (errors.email || errors.password) {
+    throw new Error(errors.email || errors.password);
+  }
+
+  if (userCredentials.password !== userCredentials.confirmPassword) {
+    throw new Error('password and confirm password do not match');
+  }
+
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/auth/register`,
+      userCredentials
+    );
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message);
+    }
+  }
+}
 
 async function login(email: string, password: string) {
   const errors = {
@@ -14,7 +47,7 @@ async function login(email: string, password: string) {
   }
 
   try {
-    const response = await axios.post(
+    const response = await axios.post<GetUserResponse>(
       `${BASE_URL}/api/auth/token`,
       {
         email,
@@ -29,4 +62,22 @@ async function login(email: string, password: string) {
   }
 }
 
-export { login };
+async function getUser(): Promise<GetUserResponse> {
+  try {
+    const response = await axios.get<GetUserResponse>(`${BASE_URL}/api/me`, {
+      withCredentials: true,
+    });
+
+    const { access_token } = response.data;
+
+    if (access_token) {
+      accessTokenService.save(access_token);
+    }
+
+    return response.data;
+  } catch (error) {
+    throw new Error('unauthorized');
+  }
+}
+
+export { login, getUser, register };

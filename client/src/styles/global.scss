@@ -1,6 +1,6 @@
-@import './gridFlex.scss';
-@import './mixins.scss';
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600;700&family=Roboto:wght@400;700&display=swap');
+@import "./gridFlex.scss";
+@import "./mixins.scss";
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600;700&family=Roboto:wght@400;700&display=swap");
 
 :root {
   --main-bg: #f2f6fa;
@@ -53,6 +53,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--main-bg);
+  position: relative;
 }
 
 main {

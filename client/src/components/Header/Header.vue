@@ -18,14 +18,10 @@ const useAuth = useAuthStore();
       </div>
       <div class="buttons">
         <TogleTheme />
-        <RouterLink v-if="true" :to="'#'" class="button clickable">
+        <RouterLink v-if="useAuth.user" :to="'#'" class="button clickable">
           Post a Job
         </RouterLink>
-        <RouterLink
-          v-if="useAuth.isAuthenticated"
-          :to="'#'"
-          class="login clickable"
-        >
+        <RouterLink v-if="useAuth.user" :to="'#'" class="login clickable">
           <IconUser />
         </RouterLink>
         <RouterLink v-else :to="'/login'" class="login clickable">

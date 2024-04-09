@@ -3,10 +3,9 @@ import IconJobType from '@/components/icons/IconJobType.vue';
 import IconEducation from '@/components/icons/IconEducation.vue';
 import IconIndustry from '@/components/icons/IconIndustry.vue';
 import IconSalary from '@/components/icons/IconSalary.vue';
-import { useClickOutside } from '@/composables/useClickOutside';
-import { useFilter } from '@/composables/useFilter';
-import { filters } from '@/utils';
-import { FilterNames } from '@/enums';
+import { useClickOutside } from '@/hooks/useClickOutside';
+import { useFilter } from '@/hooks/useFilter';
+import { FilterNames, filters } from '@/enums';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();

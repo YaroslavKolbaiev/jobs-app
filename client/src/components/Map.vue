@@ -18,13 +18,15 @@ const lat = location ? +location[1] : 0;
 const lng = location ? +location[0] : 0;
 
 loader.load().then(async () => {
-  const { Map } = (await google.maps.importLibrary(
-    'maps'
-  )) as google.maps.MapsLibrary;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { Map } = await google.maps.importLibrary('maps');
+
   const map = new Map(document.getElementById('map') as HTMLElement, {
     center: { lat, lng },
     zoom: 15,
   });
+
   new google.maps.Marker({
     position: { lat, lng },
     map,

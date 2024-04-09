@@ -1,4 +1,4 @@
-import type { filters } from '@/utils';
+import type { filters } from '@/enums';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
