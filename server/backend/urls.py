@@ -29,7 +29,14 @@ from job.views import (
     getUserCreatedJobs,
     getCandidatesPerJob,
 )
-from account.views import register, current_user, update_user, uploadResume, login
+from account.views import (
+    register,
+    current_user,
+    update_user,
+    uploadResume,
+    login,
+    logout,
+)
 
 # Build in
 from rest_framework_simplejwt.views import TokenVerifyView
@@ -52,6 +59,7 @@ urlpatterns = [
     path("api/token/verify", TokenVerifyView.as_view()),
     path("api/me/", current_user, name="current-user"),
     path("api/auth/update", update_user, name="update-user"),
+    path("api/auth/logout", logout, name="logout"),
     # Resume
     path("api/upload/resume", uploadResume, name="upload-resume"),
     # Candidate

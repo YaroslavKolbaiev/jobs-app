@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth';
-import IconLogin from '../icons/IconLogin.vue';
-import IconUser from '../icons/IconUser.vue';
-import TogleTheme from './TogleTheme.vue';
+import { useAuthStore } from "@/stores/auth";
+import IconLogin from "../icons/IconLogin.vue";
+import IconUser from "../icons/IconUser.vue";
+import TogleTheme from "./TogleTheme.vue";
 
 const useAuth = useAuthStore();
 </script>
@@ -14,16 +14,21 @@ const useAuth = useAuthStore();
         <RouterLink class="logo" :to="'/'">
           <img src="../../assets/logo.svg" alt="logo" />
         </RouterLink>
+
         <h1 class="title">Ultimate Job</h1>
       </div>
+
       <div class="buttons">
         <TogleTheme />
+
         <RouterLink v-if="useAuth.user" :to="'#'" class="button clickable">
           Post a Job
         </RouterLink>
-        <RouterLink v-if="useAuth.user" :to="'#'" class="login clickable">
+
+        <RouterLink v-if="useAuth.user" to="/profile" class="login clickable">
           <IconUser />
         </RouterLink>
+
         <RouterLink v-else :to="'/login'" class="login clickable">
           <IconLogin />
         </RouterLink>
@@ -33,8 +38,8 @@ const useAuth = useAuthStore();
 </template>
 
 <style scoped lang="scss">
-@import '../../styles/mixins.scss';
-@import '../../styles/buttons.scss';
+@import "../../styles/mixins.scss";
+@import "../../styles/buttons.scss";
 
 .header {
   background-color: var(--header-bg);

@@ -58,8 +58,10 @@ def login(request):
     refresh = RefreshToken.for_user(user)
     access = AccessToken.for_user(user)
 
+    serializer = UserSerializer(user)
+
     response = Response(
-        {"message": "Login successful", "access_token": str(access)},
+        {"data": serializer.data, "access_token": str(access)},
         status=status.HTTP_200_OK,
     )
 
@@ -85,7 +87,8 @@ def current_user(request):
 
 
 @api_view(["PUT"])
-@authorized_only
+@permission_classes([IsAuthenticated])
+# @authorized_only
 def update_user(request):
     user = request.user
     data = request.data
@@ -101,7 +104,8 @@ def update_user(request):
 
 
 @api_view(["POST"])
-@authorized_only
+# @authorized_only
+@permission_classes([IsAuthenticated])
 def uploadResume(request):
     user = request.user
 
@@ -126,3 +130,11 @@ def uploadResume(request):
     user.userprofile.resume = resume
     user.userprofile.save()
     return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def logout(request):
+    response = Response({"message": "Logged out"}, status=status.HTTP_200_OK)
+    response.delete_cookie("refresh_token")
+    return response

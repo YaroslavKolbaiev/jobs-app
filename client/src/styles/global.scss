@@ -60,6 +60,10 @@ main {
   flex-grow: 1;
 }
 
+p {
+  margin: 0;
+}
+
 .container {
   max-width: var(--max-width);
   box-sizing: border-box;

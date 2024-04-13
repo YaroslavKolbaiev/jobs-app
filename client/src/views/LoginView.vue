@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import useFetchData from '@/hooks/useFetchData';
-import ErrorToast from '@/components/ErrorToast.vue';
-import IconLoader from '@/components/icons/IconLoader.vue';
-import ShowPassword from '@/components/auth/ShowPassword.vue';
-import FormFooter from '@/components/auth/FormFooter.vue';
-import { login } from '@/api/auth';
-import { ref, watch } from 'vue';
-import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
+import useFetchData from "@/hooks/useFetchData";
+import ErrorToast from "@/components/ErrorToast.vue";
+import IconLoader from "@/components/icons/IconLoader.vue";
+import ShowPassword from "@/components/auth/ShowPassword.vue";
+import FormFooter from "@/components/auth/FormFooter.vue";
+import { login } from "@/api/auth";
+import { ref, watch } from "vue";
+import { useAuthStore } from "@/stores/auth";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
 
 const useAuth = useAuthStore();
 
-const email = ref('');
-const password = ref('');
+const email = ref("");
+const password = ref("");
 const showPassword = ref(false);
 
 const { data, isLoading, error, doRequest } = useFetchData(() =>
@@ -27,7 +27,7 @@ watch(
     if (data.value) {
       useAuth.login(data.value.data);
 
-      router.push('/');
+      router.push("/");
     }
   }
 );
@@ -89,9 +89,9 @@ watch(
 </template>
 
 <style scoped lang="scss">
-@import '../styles/transitions/slide.scss';
-@import '../styles/form.scss';
-@import '../styles/buttons.scss';
+@import "../styles/transitions/slide.scss";
+@import "../styles/form.scss";
+@import "../styles/buttons.scss";
 
 h2 {
   margin-top: 0;

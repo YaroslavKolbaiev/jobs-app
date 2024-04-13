@@ -1,4 +1,4 @@
-@import './mixins.scss';
+@import "./mixins.scss";
 
 .button {
   background-color: var(--c-blue);
@@ -35,6 +35,14 @@
     font-weight: 600;
     padding: 0;
     height: var(--auth-btn-height);
+  }
+
+  &--logout {
+    background-color: #d71515;
+
+    &:hover {
+      background-color: #ff0000;
+    }
   }
 }
 

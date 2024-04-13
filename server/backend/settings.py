@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # "rest_framework",
-    # "corsheaders",
-    # "storages",
-    # "django_filters",
+    "rest_framework",  # why do we need this?
+    "corsheaders",  # why do we need this?
+    "storages",  # why do we need this?
+    "django_filters",  # why do we need this?
     "django.contrib.gis",  # Add this line for GeoDjango
     "job.apps.JobConfig",
     "account.apps.AccountConfig",

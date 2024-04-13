@@ -7,7 +7,7 @@ const emit = defineEmits(["termsAccepted"]);
     <input type="checkbox" @change="emit('termsAccepted')" />
     <p>
       I accept the
-      <button class="terms__button">terms and conditions</button>
+      <button type="button" class="terms__button">terms and conditions</button>
     </p>
   </div>
 </template>
