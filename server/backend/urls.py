@@ -18,22 +18,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from job.views import (
-    getJobs,
-    getJob,
-    createJob,
-    updateJob,
-    deleteJob,
-    getTopicStats,
-    applyForJob,
-    getUserAppliedJobs,
-    getUserCreatedJobs,
-    getCandidatesPerJob,
+    get_jobs,
+    get_job,
+    create_job,
+    unpdate_job,
+    delete_job,
+    get_topic_stats,
+    apply_for_job,
+    get_user_applied_jobs,
+    get_user_created_jobs,
+    get_candidates_per_job,
 )
 from account.views import (
     register,
     current_user,
     update_user,
-    uploadResume,
+    upload_resume,
     login,
     logout,
 )
@@ -44,14 +44,14 @@ from rest_framework_simplejwt.views import TokenVerifyView
 urlpatterns = [
     path("admin/", admin.site.urls),
     # Jobs
-    path("api/jobs/", getJobs, name="jobs"),
-    path("api/jobs/<str:id>/", getJob, name="job"),
-    path("api/jobs/new", createJob, name="create-job"),
-    path("api/jobs/update/<str:id>/", updateJob, name="update-job"),
-    path("api/jobs/delete/<str:id>/", deleteJob, name="delete-job"),
-    path("api/jobs-by-user/", getUserCreatedJobs, name="jobs-by-user"),
+    path("api/jobs/", get_jobs, name="jobs"),
+    path("api/jobs/<str:id>/", get_job, name="job"),
+    path("api/jobs/new", create_job, name="create-job"),
+    path("api/jobs/update/<str:id>/", unpdate_job, name="update-job"),
+    path("api/jobs/delete/<str:id>/", delete_job, name="delete-job"),
+    path("api/jobs-by-user/", get_user_created_jobs, name="jobs-by-user"),
     # Stats
-    path("api/stats/<str:topic>/", getTopicStats, name="jobs-by-topic"),
+    path("api/stats/<str:topic>/", get_topic_stats, name="jobs-by-topic"),
     # Auth
     path("api/auth/register", register, name="register"),
     # Build in LOGIN functionality. Response sends access and refresh tokens
@@ -61,19 +61,19 @@ urlpatterns = [
     path("api/auth/update", update_user, name="update-user"),
     path("api/auth/logout", logout, name="logout"),
     # Resume
-    path("api/upload/resume", uploadResume, name="upload-resume"),
+    path("api/upload/resume", upload_resume, name="upload-resume"),
     # Candidate
     path(
         "api/candidate/user-candidate-jobs/",
-        getUserAppliedJobs,
+        get_user_applied_jobs,
         name="user-candidate-jobs",
     ),
     path(
         "api/candidate/job-candidates/<str:job_id>",
-        getCandidatesPerJob,
+        get_candidates_per_job,
         name="job-candidates",
     ),
-    path("api/candidate/apply/<str:job_id>", applyForJob, name="apply-job"),
+    path("api/candidate/apply/<str:job_id>", apply_for_job, name="apply-job"),
 ]
 
 # Custom error handling. To rewrite default error response

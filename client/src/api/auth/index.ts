@@ -4,7 +4,7 @@ import {
 } from "@/services/formValidationService";
 import { accessTokenService } from "@/services/accessTokenService";
 import type { GetUserResponse, UserCredentials } from "@/types";
-import axios from "axios";
+import axios, { type AxiosProgressEvent } from "axios";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -82,6 +82,7 @@ async function getUser(): Promise<GetUserResponse> {
 
     return response.data;
   } catch (error) {
+    accessTokenService.remove();
     throw new Error("unauthorized");
   }
 }
@@ -99,4 +100,21 @@ async function logout() {
   accessTokenService.remove();
 }
 
-export { login, getUser, register, logout };
+async function uploadResume(
+  formData: FormData,
+  onUploadProgress: (progressEvent: AxiosProgressEvent) => void
+) {
+  const accessToken = accessTokenService.get();
+
+  const response = await axios.post(`${BASE_URL}/api/upload/resume`, formData, {
+    onUploadProgress,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    withCredentials: true,
+  });
+
+  return response.data;
+}
+
+export { login, getUser, register, logout, uploadResume };

@@ -5,7 +5,7 @@ const isExpired = new Date(lastDate) > new Date();
 </script>
 
 <template>
-  <div v-if="!isExpired" class="note">
+  <div v-if="!isExpired" class="job note">
     <h3>Note</h3>
     <p>
       You may not longer apply to this job. This job is expired. Check out other
@@ -27,6 +27,6 @@ strong {
 }
 
 .note {
-  background-color: rgba(255, 127, 127, 0.6);
+  background-color: rgba(255, 127, 127, 0.6) !important;
 }
 </style>

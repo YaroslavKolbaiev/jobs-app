@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import JobInSearch from '@/components/Search/JobInSearch.vue';
-import ErrorToast from '@/components/ErrorToast.vue';
-import NoSearchResults from '@/components/Search/NoSearchResults.vue';
-import SerchViewSkeleton from '@/components/skeletones/SerchViewSkeleton.vue';
-import Pagination from '@/components/Pagination.vue';
-import Filters from '@/components/Search/Filters.vue';
-import { getJobs } from '@/api/jobs';
-import { salaryParser } from '@/utils';
-import useFetchData from '@/hooks/useFetchData';
-import type { GetJobsResponse, QueryParams } from '@/types';
-import { useRoute } from 'vue-router';
-import { useComputedPage } from '@/hooks/useComputed';
-import { watch } from 'vue';
+import JobInSearch from "@/components/Search/JobInSearch.vue";
+import ErrorToast from "@/components/ErrorToast.vue";
+import NoSearchResults from "@/components/Search/NoSearchResults.vue";
+import SerchViewSkeleton from "@/components/skeletones/SerchViewSkeleton.vue";
+import Pagination from "@/components/Pagination.vue";
+import Filters from "@/components/Search/Filters.vue";
+import { get_jobs } from "@/api/jobs";
+import { salaryParser } from "@/utils";
+import useFetchData from "@/hooks/useFetchData";
+import type { GetJobsResponse, QueryParams } from "@/types";
+import { useRoute } from "vue-router";
+import { useComputedPage } from "@/hooks/useComputed";
+import { watch } from "vue";
 
 const route = useRoute();
 const query = route.query as unknown as QueryParams<string>;
@@ -23,7 +23,7 @@ const { page, jobType, education, industry, salary } = useComputedPage();
 
 const { data, doRequest, isLoading, error } = useFetchData<GetJobsResponse>(
   () =>
-    getJobs(page.value, {
+    get_jobs(page.value, {
       keyword,
       location,
       jobType: jobType.value,
@@ -62,7 +62,7 @@ watch([page, jobType, education, industry, salary], () => {
 </template>
 
 <style scoped lang="scss">
-@import '../styles/mixins.scss';
+@import "../styles/mixins.scss";
 
 h2 {
   display: inline;

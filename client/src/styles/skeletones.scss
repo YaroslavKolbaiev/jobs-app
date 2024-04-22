@@ -18,6 +18,26 @@
     box-sizing: border-box;
   }
 
+  &__company {
+    height: 25px;
+    width: 100%;
+  }
+
+  &__applyBtn {
+    height: 40px;
+    width: 20%;
+  }
+
+  &__candidates {
+    height: 25px;
+    width: 70%;
+  }
+
+  &__short-lines {
+    display: flex;
+    gap: 10%;
+  }
+
   &__title {
     height: 35px;
     width: 40%;

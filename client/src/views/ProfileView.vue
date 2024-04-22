@@ -1,30 +1,31 @@
 <script setup lang="ts">
 import ErrorToast from "@/components/ErrorToast.vue";
-import useFetchData from "@/hooks/useFetchData";
+import UserJobs from "@/components/Job/UserJobs.vue";
+import LogOutButton from "@/components/auth/LogOutButton.vue";
+import UploadResume from "@/components/auth/UploadResume.vue";
 import { useAuthStore } from "@/stores/auth";
-import { logout } from "@/api/auth";
+import { ref, type Ref } from "vue";
 
 const useAuth = useAuthStore();
 
-const onLogout = async () => {
-  logout();
-  useAuth.logout();
-};
+const error = ref<Error | null>(null);
 
-const { isLoading, error, doRequest } = useFetchData(onLogout);
+const onErrorEmited = (err: Ref) => {
+  error.value = err.value;
+};
 </script>
 
 <template>
   <main>
-    <div class="container">
-      <form @submit.prevent="doRequest" class="form">
+    <div class="container grid">
+      <div class="form grid__item--1-5">
         <p>Profile</p>
         <h2>Welcome, {{ useAuth.user?.username }}</h2>
-        <div>
-          <button type="button" class="button">Upload resume</button>
-          <button type="submit" class="button button--logout">Log out</button>
-        </div>
-      </form>
+        <LogOutButton @error-emited="onErrorEmited" />
+      </div>
+      <UserJobs @error-emited="onErrorEmited" />
+      <UploadResume @error-emited="onErrorEmited" />
+      <div class="job grid__item--7-12">Applied jobs</div>
     </div>
   </main>
   <transition name="slide">
@@ -38,17 +39,24 @@ const { isLoading, error, doRequest } = useFetchData(onLogout);
 
 <style scoped lang="scss">
 @import "../styles/form.scss";
-@import "../styles/buttons.scss";
 @import "../styles/gridFlex.scss";
+@import "../styles/buttons.scss";
+@import "../styles/transitions/slide.scss";
+@import "../styles//job.scss";
 
-button {
-  margin-right: 20px;
+.form {
+  margin: 0;
   margin-bottom: 10px;
+  max-width: 100%;
 
-  &:last-child {
-    margin-right: 0;
+  @include onDesktop {
     margin-bottom: 0;
   }
+}
+
+.profile-buttons {
+  display: flex;
+  gap: 10px;
 }
 
 p {

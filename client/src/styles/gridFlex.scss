@@ -1,4 +1,4 @@
-@import './mixins.scss';
+@import "./mixins.scss";
 
 .grid {
   display: flex;
@@ -10,6 +10,7 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     column-gap: 30px;
+    row-gap: 30px;
     margin-top: 60px;
   }
 
@@ -34,4 +35,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.flex-start-center {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
 }

@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { getJobs } from '@/api/jobs';
-import CardSkeleton from '../skeletones/CardSkeleton.vue';
-import Pagination from '@/components/Pagination.vue';
-import JobCard from './JobCard.vue';
-import ErrorToast from '../ErrorToast.vue';
-import useFetchData from '@/hooks/useFetchData';
-import { watch } from 'vue';
-import { useComputedPage } from '@/hooks/useComputed';
+import { get_jobs } from "@/api/jobs";
+import CardSkeleton from "../skeletones/CardSkeleton.vue";
+import Pagination from "@/components/Pagination.vue";
+import JobCard from "./JobCard.vue";
+import ErrorToast from "../ErrorToast.vue";
+import useFetchData from "@/hooks/useFetchData";
+import { watch } from "vue";
+import { useComputedPage } from "@/hooks/useComputed";
 
 const { page } = useComputedPage();
 
 const { data, doRequest, isLoading, error } = useFetchData(() =>
-  getJobs(page.value)
+  get_jobs(page.value)
 );
 
 watch(page, () => {
@@ -53,8 +53,8 @@ doRequest();
 </template>
 
 <style scoped lang="scss">
-@import '../../styles/mixins.scss';
-@import '../../styles/transitions/slide.scss';
+@import "../../styles/mixins.scss";
+@import "../../styles/transitions/slide.scss";
 
 .jobs {
   display: flex;

@@ -20,7 +20,7 @@ class UserProfile(models.Model):
 # In Django, signals are a way to allow decoupled applications to get
 # notified when certain actions occur. Signals are sent by senders and
 # received by receivers. The post_save signal is sent after a model's
-# instance is saved(in this case when user.userprofile.save() runs in uploadResume view)
+# instance is saved(in this case when user.userprofile.save() runs in upload_resume view)
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, created, **kwargs):
     user = instance

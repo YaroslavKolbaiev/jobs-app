@@ -106,7 +106,7 @@ def update_user(request):
 @api_view(["POST"])
 # @authorized_only
 @permission_classes([IsAuthenticated])
-def uploadResume(request):
+def upload_resume(request):
     user = request.user
 
     resume = request.FILES["resume"]
@@ -120,6 +120,8 @@ def uploadResume(request):
         return Response(
             {"error": "Please upload only pdf, doc or docx files"}, status=404
         )
+
+    resume.name = f"{user.id}_{resume.name}"
 
     serializer = UserSerializer(user)
 

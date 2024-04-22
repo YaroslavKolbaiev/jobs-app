@@ -1,13 +1,15 @@
-import type { GetJobsResponse, GetJobResponse } from '../../types';
-import axios from 'axios';
+import { accessTokenService } from "@/services/accessTokenService";
+import type { GetJobsResponse, GetJobResponse, Job } from "../../types";
+import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const jobsCache: Record<string, GetJobsResponse> = {};
 const jobCache: Record<string, GetJobResponse> = {};
+const userJobsCache: Record<string, Job[]> = {};
 
-async function getJobs(
-  page: string = '1',
+async function get_jobs(
+  page: string = "1",
   query: Record<string, string | number> = {}
 ) {
   const key = `${page}-${JSON.stringify(query)}`;
@@ -27,8 +29,8 @@ async function getJobs(
   return data;
 }
 
-async function getJob(id: string) {
-  const key = 'job-' + id;
+async function get_job(id: string) {
+  const key = "job-" + id;
   if (jobCache[key]) {
     return jobCache[key];
   }
@@ -43,4 +45,26 @@ async function getJob(id: string) {
   return data;
 }
 
-export { getJobs, getJob };
+async function get_jobs_by_uer() {
+  const accessToken = accessTokenService.get();
+
+  const key = "userJobs";
+
+  if (userJobsCache[key]) {
+    return userJobsCache[key];
+  }
+
+  const response = await axios.get<Job[]>(`${BASE_URL}/api/jobs-by-user/`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    withCredentials: true,
+  });
+
+  const data = response.data;
+  userJobsCache[key] = data;
+
+  return data;
+}
+
+export { get_jobs, get_job, get_jobs_by_uer };

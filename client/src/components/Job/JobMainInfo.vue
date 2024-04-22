@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import IconLocation from '@/components/icons/IconLocation.vue';
-import type { MainInfoProps } from '@/types';
+import IconLocation from "@/components/icons/IconLocation.vue";
+import type { MainInfoProps } from "@/types";
 
 const { title, company, address, description, candidates } =
   defineProps<MainInfoProps>();
@@ -12,7 +12,7 @@ const { title, company, address, description, candidates } =
   </h1>
 
   <div class="mainInfo">
-    <h2 class="name">
+    <h2 class="mainInfo__name">
       {{ company }}
     </h2>
     <p class="mainInfo__adress">
@@ -36,8 +36,8 @@ const { title, company, address, description, candidates } =
 </template>
 
 <style scoped lang="scss">
-@import '../../styles/mixins.scss';
-@import '../../styles/buttons.scss';
+@import "../../styles/mixins.scss";
+@import "../../styles/buttons.scss";
 
 .mainInfo {
   display: flex;

@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db.models import Count, Max, Min, Avg
 from .filters import JobsFilter
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from account.decorators import authorized_only
@@ -14,7 +16,7 @@ JOBS_PER_PAGE = 4
 
 
 @api_view(["GET"])
-def getTopicStats(request, topic):
+def get_topic_stats(request, topic):
     # This line is responsible for querying the database to retrieve
     # a list of Job objects that have a title containing a specific topic.
     jobs = Job.objects.filter(title__icontains=topic)
@@ -34,7 +36,7 @@ def getTopicStats(request, topic):
 
 # Create get all posts.
 @api_view(["GET"])
-def getJobs(request):
+def get_jobs(request):
     # This line is responsible for filtering the Job objects based on the query parameters.
     filterset = JobsFilter(
         request.GET, queryset=Job.objects.all().order_by("-created_at")
@@ -59,7 +61,7 @@ def getJobs(request):
 
 
 @api_view(["GET"])
-def getJob(request, id):
+def get_job(request, id):
     # This line retrieves the Job object with the specified id from the database,
     # or raises a 404 Not Found error if no such object exists.
     job = get_object_or_404(Job, id=id)
@@ -69,8 +71,8 @@ def getJob(request, id):
 
 
 @api_view(["GET"])
-@authorized_only
-def getUserCreatedJobs(request):
+@permission_classes([IsAuthenticated])
+def get_user_created_jobs(request):
     kwargs = {"user": request.user.id}
     jobs = Job.objects.filter(**kwargs)
     serializer = JobSerializer(jobs, many=True)
@@ -78,8 +80,8 @@ def getUserCreatedJobs(request):
 
 
 @api_view(["POST"])
-@authorized_only
-def createJob(request):
+@permission_classes([IsAuthenticated])
+def create_job(request):
     request.data["user"] = request.user
     data = request.data
     # **data is used to unpack the data dictionary into keyword arguments
@@ -90,8 +92,8 @@ def createJob(request):
 
 
 @api_view(["POST"])
-@authorized_only
-def applyForJob(request, job_id):
+@permission_classes([IsAuthenticated])
+def apply_for_job(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     user = request.user
 
@@ -102,10 +104,10 @@ def applyForJob(request, job_id):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    # Check if job date is still valid
+        # Check if job date is still valid
     if job.lastDate < timezone.now():
         return Response(
-            {"error": "You not allowed to apply this job. Date is over"},
+            # {"error": "You not allowed to apply this job. Date is over"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -127,8 +129,8 @@ def applyForJob(request, job_id):
 
 
 @api_view(["GET"])
-@authorized_only
-def getUserAppliedJobs(request):
+@permission_classes([IsAuthenticated])
+def get_user_applied_jobs(request):
     user = request.user
 
     jobs_applied = CandidatesApplied.objects.filter(user=user.id)
@@ -140,7 +142,7 @@ def getUserAppliedJobs(request):
 
 @api_view(["GET"])
 @authorized_only
-def getCandidatesPerJob(request, job_id):
+def get_candidates_per_job(request, job_id):
     current_job = get_object_or_404(Job, id=job_id)
 
     if current_job.user != request.user:
@@ -156,8 +158,8 @@ def getCandidatesPerJob(request, job_id):
 
 
 @api_view(["DELETE"])
-@authorized_only
-def deleteJob(request, id):
+@permission_classes([IsAuthenticated])
+def delete_job(request, id):
     job = get_object_or_404(Job, id=id)
     # Allow to update job only for the user who created the job
     if job.user != request.user:
@@ -172,8 +174,8 @@ def deleteJob(request, id):
 
 
 @api_view(["PUT"])
-@authorized_only
-def updateJob(request, id):
+@permission_classes([IsAuthenticated])
+def unpdate_job(request, id):
     data = request.data
     job = get_object_or_404(Job, id=id)
 
@@ -192,7 +194,7 @@ def updateJob(request, id):
 
 # ----------------- Old way of updating job -----------------
 # @api_view(["PUT"])
-# def updateJob(request, id):
+# def unpdate_job(request, id):
 #     data = request.data
 #     job = get_object_or_404(Job, id=id)
 

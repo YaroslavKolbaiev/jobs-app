@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import JobMainInfo from '@/components/Job/JobMainInfo.vue';
-import ErrorToast from '@/components/ErrorToast.vue';
-import JobDetails from '@/components/Job/JobDetails.vue';
-import JobInfoTable from '@/components/Job/JobInfoTable.vue';
-import JobNote from '@/components/Job/JobNote.vue';
-import Map from '@/components/Map.vue';
-import JobViewSkeleton from '@/components/skeletones/JobViewSkeleton.vue';
-import { useRoute } from 'vue-router';
-import { getJob } from '@/api/jobs';
-import useFetchData from '@/hooks/useFetchData';
-import type { GetJobResponse } from '@/types';
+import JobMainInfo from "@/components/Job/JobMainInfo.vue";
+import ErrorToast from "@/components/ErrorToast.vue";
+import JobDetails from "@/components/Job/JobDetails.vue";
+import JobInfoTable from "@/components/Job/JobInfoTable.vue";
+import JobNote from "@/components/Job/JobNote.vue";
+import Map from "@/components/Map.vue";
+import JobViewSkeleton from "@/components/skeletones/JobViewSkeleton.vue";
+import { useRoute } from "vue-router";
+import { get_job } from "@/api/jobs";
+import useFetchData from "@/hooks/useFetchData";
+import type { GetJobResponse } from "@/types";
 
 const route = useRoute();
 const jobId = route.params.id as string;
 
 const { data, doRequest, isLoading, error } = useFetchData<GetJobResponse>(() =>
-  getJob(jobId)
+  get_job(jobId)
 );
 
 doRequest();
@@ -48,7 +48,7 @@ doRequest();
             :last-date="data?.job?.lastDate"
             class="job"
           />
-          <JobNote :last-date="data?.job?.lastDate || ''" class="job note" />
+          <JobNote :last-date="data?.job?.lastDate || ''" />
         </div>
         <Map :point="data?.job?.point" />
       </div>
@@ -64,6 +64,6 @@ doRequest();
 </template>
 
 <style scoped lang="scss">
-@import '../styles/transitions/slide.scss';
-@import '../styles/job.scss';
+@import "../styles/transitions/slide.scss";
+@import "../styles/job.scss";
 </style>
