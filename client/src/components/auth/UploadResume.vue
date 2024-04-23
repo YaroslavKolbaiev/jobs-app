@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import IconLoader from "@/components/icons/IconLoader.vue";
 import useFetchData from "../../hooks/useFetchData";
 import { uploadResume } from "@/api/auth";
 import { ref, watch } from "vue";
+import { useAuthStore } from "@/stores/auth";
 
 const emit = defineEmits(["errorEmited"]);
 const resume = ref();
 const resumeName = ref("");
 const progress = ref(0);
+const useAuth = useAuthStore();
 
 const onUploadResume = async () => {
   const formData = new FormData();
@@ -17,6 +20,9 @@ const onUploadResume = async () => {
       (progressEvent.loaded * 100) / (progressEvent.total ?? 1)
     );
   });
+  if (useAuth.user) {
+    useAuth.user.resume = resume.value;
+  }
 };
 
 const { isLoading, error, doRequest } = useFetchData(onUploadResume);
@@ -47,7 +53,8 @@ watch(error, () => {
     </div>
     <progress :value="progress" max="100"></progress>
     <button :disabled="isLoading" type="submit" class="button">
-      {{ isLoading ? "submitting" : "Submit" }}
+      <IconLoader v-if="isLoading" />
+      <span v-else>Submit</span>
     </button>
   </form>
 </template>

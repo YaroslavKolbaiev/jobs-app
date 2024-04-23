@@ -10,8 +10,6 @@ const useAuth = useAuthStore();
 onMounted(async () => {
   const { data } = await getUser();
 
-  console.log("data", data);
-
   if (data) {
     useAuth.login(data);
   }

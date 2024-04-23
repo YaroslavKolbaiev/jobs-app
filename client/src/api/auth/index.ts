@@ -5,6 +5,7 @@ import {
 import { accessTokenService } from "@/services/accessTokenService";
 import type { GetUserResponse, UserCredentials } from "@/types";
 import axios, { type AxiosProgressEvent } from "axios";
+import { userJobsCache } from "@/cache";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -90,6 +91,10 @@ async function getUser(): Promise<GetUserResponse> {
 async function logout() {
   const accessToken = accessTokenService.get();
 
+  if (!accessToken) {
+    return;
+  }
+
   await axios.post(`${BASE_URL}/api/auth/logout`, null, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -98,6 +103,7 @@ async function logout() {
   });
 
   accessTokenService.remove();
+  delete userJobsCache[accessToken];
 }
 
 async function uploadResume(

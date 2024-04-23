@@ -21,6 +21,13 @@ const onErrorEmited = (err: Ref) => {
       <div class="form grid__item--1-5">
         <p>Profile</p>
         <h2>Welcome, {{ useAuth.user?.username }}</h2>
+        <a
+          v-if="useAuth.user?.resume"
+          :href="`https://devs-django-backet.s3.amazonaws.com/${useAuth.user?.resume}`"
+          target="_blank"
+        >
+          Download Resume
+        </a>
         <LogOutButton @error-emited="onErrorEmited" />
       </div>
       <UserJobs @error-emited="onErrorEmited" />
@@ -61,5 +68,10 @@ const onErrorEmited = (err: Ref) => {
 
 p {
   font-size: 24px;
+}
+
+a {
+  color: var(--c-blue);
+  margin-bottom: 20px;
 }
 </style>

@@ -21,7 +21,7 @@ const useAuth = useAuthStore();
       <div class="buttons">
         <TogleTheme />
 
-        <RouterLink v-if="useAuth.user" :to="'#'" class="button clickable">
+        <RouterLink v-if="useAuth.user" to="/post-job" class="button clickable">
           Post a Job
         </RouterLink>
 

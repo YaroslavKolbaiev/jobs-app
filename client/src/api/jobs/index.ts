@@ -1,12 +1,9 @@
 import { accessTokenService } from "@/services/accessTokenService";
 import type { GetJobsResponse, GetJobResponse, Job } from "../../types";
 import axios from "axios";
+import { jobCache, jobsCache, userJobsCache } from "@/cache";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
-
-const jobsCache: Record<string, GetJobsResponse> = {};
-const jobCache: Record<string, GetJobResponse> = {};
-const userJobsCache: Record<string, Job[]> = {};
 
 async function get_jobs(
   page: string = "1",
@@ -45,13 +42,15 @@ async function get_job(id: string) {
   return data;
 }
 
-async function get_jobs_by_uer() {
+async function userJobs() {
   const accessToken = accessTokenService.get();
 
-  const key = "userJobs";
+  if (!accessToken) {
+    return;
+  }
 
-  if (userJobsCache[key]) {
-    return userJobsCache[key];
+  if (userJobsCache[accessToken]) {
+    return userJobsCache[accessToken];
   }
 
   const response = await axios.get<Job[]>(`${BASE_URL}/api/jobs-by-user/`, {
@@ -62,9 +61,9 @@ async function get_jobs_by_uer() {
   });
 
   const data = response.data;
-  userJobsCache[key] = data;
+  userJobsCache[accessToken] = data;
 
   return data;
 }
 
-export { get_jobs, get_job, get_jobs_by_uer };
+export { get_jobs, get_job, userJobs };

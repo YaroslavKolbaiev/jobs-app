@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import ListItemSkeleton from "@/components/skeletones/ListItemSkeleton.vue";
 import useFetchData from "@/hooks/useFetchData";
-import { get_jobs_by_uer } from "@/api/jobs";
+import { userJobs } from "@/api/jobs";
 import { watch } from "vue";
 
 const emit = defineEmits(["errorEmited"]);
 
-const { data, isLoading, error, doRequest } = useFetchData(() =>
-  get_jobs_by_uer()
-);
+const { data, isLoading, error, doRequest } = useFetchData(() => userJobs());
 
 watch(error, () => {
   emit("errorEmited", error);
@@ -28,6 +26,7 @@ doRequest();
       </li>
       <ListItemSkeleton v-else />
     </ul>
+    <p v-if="!data?.length && !isLoading">You don't have any jobs yet</p>
   </div>
 </template>
 
@@ -69,5 +68,9 @@ li {
   &:hover {
     color: var(--c-blue);
   }
+}
+
+p {
+  color: var(--c-gray);
 }
 </style>
