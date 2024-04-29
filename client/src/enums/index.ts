@@ -1,43 +1,57 @@
 export enum FilterNames {
-  JobType = 'jobType',
-  Education = 'education',
-  Industry = 'industry',
-  SalaryRange = 'salary',
+  JobType = "jobType",
+  Education = "education",
+  Industry = "industry",
+  SalaryRange = "salary",
 }
 
 export enum JobType {
-  Permanent = 'Permanent',
-  Contract = 'Contract',
-  Internship = 'Internship',
-  Temporary = 'Temporary',
+  Permanent = "Permanent",
+  Contract = "Contract",
+  Internship = "Internship",
+  Temporary = "Temporary",
 }
 
 export enum Education {
-  Bachelor = 'Bachelor',
-  Master = 'Master',
-  PhD = 'PhD',
+  Bachelor = "Bachelor",
+  Master = "Master",
+  PhD = "PhD",
 }
 
 export enum Industry {
-  IT = 'IT',
-  Business = 'Business',
-  Banking = 'Banking',
-  Education = 'Education',
-  Telecommunication = 'Telecommunication',
+  IT = "IT",
+  Business = "Business",
+  Banking = "Banking",
+  Education = "Education",
+  Telecommunication = "Telecommunication",
 }
 
 export enum SalaryRange {
-  below40000 = '1$-60000$',
-  from40000to60000 = '60000$-100000$',
-  from60000to100000 = '100000$-150000$',
-  above100000 = '150000$ >',
+  below40000 = "1$-60000$",
+  from40000to60000 = "60000$-100000$",
+  from60000to100000 = "100000$-150000$",
+  above100000 = "150000$ >",
 }
 
 export enum InputNames {
-  Email = 'email',
-  FirstName = 'first_name',
-  LastName = 'last_name',
-  Username = 'username',
+  Email = "email",
+  FirstName = "first_name",
+  LastName = "last_name",
+  Username = "username",
+}
+
+export enum JobInputNames {
+  Title = "title",
+  Description = "description",
+  Email = "email",
+  Address = "address",
+  Salary = "salary",
+  Position = "position",
+  Company = "company",
+  // JobType = "jobType",
+  // Education = "education",
+  // Industry = "industry",
+  Experience = "experience",
 }
 
 export const filters = {

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { InfoTableProps } from '@/types';
+import type { InfoTableProps } from "@/types";
 
 const props = defineProps<InfoTableProps>();
 
 const labels = [
-  'Job Type',
-  'Education',
-  'Experiance',
-  'Expected Salary',
-  'Industry',
+  "Job Type",
+  "Education",
+  "Experiance",
+  "Expected Salary",
+  "Industry",
 ];
 </script>
 
@@ -17,7 +17,7 @@ const labels = [
   <table>
     <tr
       v-for="(item, index) in Object.values(props)"
-      :key="item"
+      :key="`id-${index}`"
       :class="{ withBg: index % 2 === 0 }"
     >
       <th>{{ labels[index] }}</th>
@@ -27,7 +27,7 @@ const labels = [
 </template>
 
 <style scoped lang="scss">
-@import '../../styles/mixins.scss';
+@import "../../styles/mixins.scss";
 
 table {
   width: 100%;

@@ -4,8 +4,8 @@ interface Job {
   description: string | null;
   email: string;
   address: string | null;
-  salary: number;
-  position: number;
+  salary: number | null;
+  position: number | null;
   company: string | null;
   // point: {
   //   type: string;
@@ -59,7 +59,7 @@ type InfoTableProps = {
   education: string | undefined;
   industry: string | undefined;
   experience: string | undefined;
-  salary: number | undefined;
+  salary: number | null | undefined;
 };
 
 type MainInfoProps = {
@@ -76,7 +76,25 @@ type DetailsProps = {
   lastDate: string | undefined;
 };
 
-type CardProps = Pick<Job, 'id' | 'title' | 'description' | 'industry'>;
+type CardProps = Pick<Job, "id" | "title" | "description" | "industry">;
+type PostJobProps = Pick<
+  Job,
+  | "title"
+  | "description"
+  | "email"
+  | "address"
+  | "salary"
+  | "position"
+  | "company"
+  | "jobType"
+  | "industry"
+  | "experience"
+>;
+
+type NewJobProps = {
+  options: unknown;
+  name: string;
+};
 
 export {
   Job,
@@ -90,4 +108,6 @@ export {
   GetUserResponse,
   User,
   UserCredentials,
+  NewJobProps,
+  PostJobProps,
 };
