@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ListItemSkeleton from "@/components/skeletones/ListItemSkeleton.vue";
+import DeleteJob from "@/components/Job/DeleteJob.vue";
 import useFetchData from "@/hooks/useFetchData";
 import { watch } from "vue";
 import type { Job } from "@/types";
@@ -33,6 +34,11 @@ doRequest();
         <RouterLink :to="`/job/${job.id}`" class="link">
           {{ job.title }}
         </RouterLink>
+        <DeleteJob
+          v-if="usersJobs === JobsByUser.Created"
+          :job-id="job.id"
+          @job-deleted="doRequest"
+        />
       </li>
       <ListItemSkeleton v-else />
     </ul>
@@ -61,6 +67,7 @@ li {
   line-height: 30px;
   list-style: none;
   position: relative;
+  display: flex;
 
   &::before {
     content: "•";

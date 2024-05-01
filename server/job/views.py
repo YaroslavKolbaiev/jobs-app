@@ -97,6 +97,12 @@ def apply_for_job(request, job_id):
     job = get_object_or_404(Job, id=job_id)
     user = request.user
 
+    if job.user == user:
+        return Response(
+            {"message": "You can't apply for your own job"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
     # Check if resume is provided
     if user.userprofile.resume == "":
         return Response(
@@ -166,7 +172,7 @@ def delete_job(request, id):
     # Allow to update job only for the user who created the job
     if job.user != request.user:
         return Response(
-            {"message": "You are not authorized to update this job"},
+            {"message": "You are not authorized to delete this job"},
             status=status.HTTP_403_FORBIDDEN,
         )
     job.delete()
@@ -192,29 +198,3 @@ def unpdate_job(request, id):
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
-
-
-# ----------------- Old way of updating job -----------------
-# @api_view(["PUT"])
-# def unpdate_job(request, id):
-#     data = request.data
-#     job = get_object_or_404(Job, id=id)
-
-#     job.title = data["title"]
-#     job.description = data["description"]
-#     job.email = data["email"]
-#     job.address = data["address"]
-#     job.salary = data["salary"]
-#     job.position = data["position"]
-#     job.company = data["company"]
-#     job.point = data["point"]
-#     job.lastDate = data["lastDate"]
-#     job.user = data["user"]
-#     job.jobType = data["jobType"]
-#     job.education = data["education"]
-#     job.industry = data["industry"]
-#     job.experience = data["experience"]
-
-#     serializer = JobSerializer(job, many=False)
-
-#     return Response(serializer.data)

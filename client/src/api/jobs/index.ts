@@ -171,4 +171,42 @@ async function applyToJob(jobId: string) {
   }
 }
 
-export { get_jobs, get_job, userJobs, postJob, applyToJob, appliedJobs };
+async function deleteJob(jobId: string) {
+  const accessToken = accessTokenService.get();
+
+  if (!accessToken) {
+    return;
+  }
+
+  try {
+    await axios.delete(`${BASE_URL}/api/jobs/delete/${jobId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      withCredentials: true,
+    });
+
+    Object.keys(jobsCache).forEach((key) => {
+      delete jobsCache[key];
+    });
+
+    const key = JOB_KEY + jobId;
+    delete jobCache[key];
+
+    delete userJobsCache[accessToken];
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message);
+    }
+  }
+}
+
+export {
+  get_jobs,
+  get_job,
+  userJobs,
+  postJob,
+  applyToJob,
+  appliedJobs,
+  deleteJob,
+};
