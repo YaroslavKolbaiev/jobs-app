@@ -1,5 +1,15 @@
 # Jobs App
 
+schema
+
+appliedAt - string
+job - Job
+resume - string
+user - number
+
 TODO :
 
-- change Job types. (jobType, education and industry) to enums values
+- tranfer amazon url to env
+- make crreated or applied enum
+
+

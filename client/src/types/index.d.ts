@@ -50,10 +50,17 @@ type GetJobsResponse = {
 };
 
 type GetJobResponse = {
-  // job: Job;
   job: Job | null;
   candidates: number;
 };
+
+type ApplyToJobResponse = {
+  appliedAt: string;
+  job: Job;
+  resume: string;
+  user: number;
+};
+
 type InfoTableProps = {
   jobType: string | undefined;
   education: string | undefined;
@@ -63,6 +70,7 @@ type InfoTableProps = {
 };
 
 type MainInfoProps = {
+  jobId: string;
   title: string | undefined;
   company: string | null | undefined;
   address: string | null | undefined;
@@ -110,4 +118,5 @@ export {
   UserCredentials,
   NewJobProps,
   PostJobProps,
+  ApplyToJobResponse,
 };

@@ -100,21 +100,21 @@ def apply_for_job(request, job_id):
     # Check if resume is provided
     if user.userprofile.resume == "":
         return Response(
-            {"error": "Please upload your resume first"},
+            {"message": "Please upload your resume first"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
         # Check if job date is still valid
     if job.lastDate < timezone.now():
         return Response(
-            # {"error": "You not allowed to apply this job. Date is over"},
+            {"message": "You are not allowed to apply this job. Date is over"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
     # Check if the user has already applied for the job
     if CandidatesApplied.objects.filter(job=job, user=user).exists():
         return Response(
-            {"error": "You have already applied for this job"},
+            {"message": "You have already applied for this job"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -137,7 +137,9 @@ def get_user_applied_jobs(request):
 
     serializer = CandidatesAppliedSerializer(jobs_applied, many=True)
 
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    jobs_data = [item["job"] for item in serializer.data]
+
+    return Response(jobs_data, status=status.HTTP_200_OK)
 
 
 @api_view(["GET"])
@@ -147,7 +149,7 @@ def get_candidates_per_job(request, job_id):
 
     if current_job.user != request.user:
         return Response(
-            {"error": "You are not allowed to access data of current job"},
+            {"message": "You are not allowed to access data of current job"},
             status=status.HTTP_403_FORBIDDEN,
         )
 

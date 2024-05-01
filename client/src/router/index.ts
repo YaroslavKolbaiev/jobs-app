@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import { useAuthStore } from "@/stores/auth";
 import { accessTokenService } from "@/services/accessTokenService";
 
 const router = createRouter({
@@ -55,7 +54,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // const useAuth = useAuthStore();
   const accessToken = accessTokenService.get();
   if (to.meta.requiresAuth && !accessToken) {
     next("/login");

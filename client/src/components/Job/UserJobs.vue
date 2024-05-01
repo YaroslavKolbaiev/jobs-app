@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import ListItemSkeleton from "@/components/skeletones/ListItemSkeleton.vue";
 import useFetchData from "@/hooks/useFetchData";
-import { userJobs } from "@/api/jobs";
 import { watch } from "vue";
+import type { Job } from "@/types";
+import { JobsByUser } from "@/enums";
+
+const { callBack } = defineProps<{
+  callBack: () => Promise<Job[] | undefined>;
+  usersJobs: JobsByUser;
+}>();
 
 const emit = defineEmits(["errorEmited"]);
 
-const { data, isLoading, error, doRequest } = useFetchData(() => userJobs());
+const { data, isLoading, error, doRequest } = useFetchData(() => callBack());
 
 watch(error, () => {
   emit("errorEmited", error);
@@ -16,8 +22,12 @@ doRequest();
 </script>
 
 <template>
-  <div class="grid__item--6-12 job">
-    <h2>Created Jobs</h2>
+  <div
+    :class="`grid__item--${
+      usersJobs === JobsByUser.Created ? '6-12' : '7-12'
+    } job`"
+  >
+    <h2>{{ usersJobs }} Jobs</h2>
     <ul>
       <li v-if="!isLoading" v-for="job in data" :key="job.id">
         <RouterLink :to="`/job/${job.id}`" class="link">

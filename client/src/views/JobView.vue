@@ -23,9 +23,11 @@ doRequest();
 <template>
   <main>
     <JobViewSkeleton v-if="isLoading" class="container grid" />
+
     <div v-if="!isLoading" class="container grid">
       <div class="job grid__item--1-8">
         <JobMainInfo
+          :job-id="jobId"
           :title="data?.job?.title"
           :address="data?.job?.address"
           :description="data?.job?.description"
@@ -40,6 +42,7 @@ doRequest();
           :industry="data?.job?.industry"
         />
       </div>
+
       <div class="grid__item--9-12">
         <div class="job-details">
           <JobDetails
@@ -48,12 +51,15 @@ doRequest();
             :last-date="data?.job?.lastDate"
             class="job"
           />
+
           <JobNote :last-date="data?.job?.lastDate || ''" />
         </div>
+
         <Map :point="data?.job?.point" />
       </div>
     </div>
   </main>
+
   <transition name="slide">
     <ErrorToast
       v-if="error"

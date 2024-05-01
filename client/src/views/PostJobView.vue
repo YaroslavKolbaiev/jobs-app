@@ -37,9 +37,7 @@ const { isLoading, error, doRequest } = useFetchData(onSubmit);
   <main>
     <div class="container">
       <form @submit.prevent="doRequest" class="form grid">
-        <h2 class="grid__item--1-12">
-          Create new job
-        </h2>
+        <h2 class="grid__item--1-12">Create new job</h2>
 
         <div
           v-for="(input, index) in Object.values(JobInputNames)"
@@ -60,27 +58,38 @@ const { isLoading, error, doRequest } = useFetchData(onSubmit);
           @emit-select="(value) => (newJob.jobType = value)"
           :options="Object.values(JobType)"
           :name="'Job Type'"
-          class="grid__item--1-6 form__input"
+          class="grid__item--7-12 form__input"
         />
 
         <NewJobSelect
           @emit-select="(value) => (newJob.education = value)"
           :options="Object.values(Education)"
           :name="'Education Level'"
-          class="grid__item--7-12 form__input"
+          class="grid__item--1-6 form__input"
         />
 
         <NewJobSelect
           @emit-select="(value) => (newJob.industry = value)"
           :options="Object.values(Industry)"
           :name="'Industry'"
-          class="grid__item--1-6 form__input"
+          class="grid__item--7-12 form__input"
         />
+
+        <div class="grid__item--1-12">
+          <textarea
+            class="form__input"
+            name="Description"
+            id="description"
+            v-model="newJob.description"
+            placeholder="description"
+            required
+          />
+        </div>
 
         <button
           :disabled="isLoading"
           type="submit"
-          class="button button--form grid__item--7-12"
+          class="button button--form grid__item--1-6"
         >
           <IconLoader v-if="isLoading" />
           <span v-else>Submit</span>
@@ -111,5 +120,9 @@ const { isLoading, error, doRequest } = useFetchData(onSubmit);
 select {
   appearance: none;
   cursor: pointer;
+}
+
+textarea {
+  max-width: 100%;
 }
 </style>

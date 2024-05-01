@@ -4,9 +4,10 @@ import type {
   GetJobResponse,
   Job,
   PostJobProps,
+  ApplyToJobResponse,
 } from "../../types";
 import axios from "axios";
-import { jobCache, jobsCache, userJobsCache } from "@/cache";
+import { jobCache, jobsCache, userJobsCache, appliedJobsCache } from "@/cache";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 const JOB_KEY = "job-";
@@ -16,6 +17,7 @@ async function get_jobs(
   query: Record<string, string | number> = {}
 ) {
   const key = `${page}-${JSON.stringify(query)}`;
+
   if (jobsCache[key]) {
     return jobsCache[key];
   }
@@ -72,6 +74,33 @@ async function userJobs() {
   return data;
 }
 
+async function appliedJobs() {
+  const accessToken = accessTokenService.get();
+
+  if (!accessToken) {
+    return;
+  }
+
+  if (appliedJobsCache[accessToken]) {
+    return appliedJobsCache[accessToken];
+  }
+
+  const response = await axios.get<Job[]>(
+    `${BASE_URL}/api/candidate/user-candidate-jobs/`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      withCredentials: true,
+    }
+  );
+
+  const data = response.data;
+  appliedJobsCache[accessToken] = data;
+
+  return data;
+}
+
 async function postJob(newJob: PostJobProps) {
   const accessToken = accessTokenService.get();
 
@@ -88,7 +117,6 @@ async function postJob(newJob: PostJobProps) {
     });
 
     const data = response.data;
-    userJobsCache[accessToken].push(data);
 
     // Add new job to the cache
     const key = JOB_KEY + data.id;
@@ -99,6 +127,8 @@ async function postJob(newJob: PostJobProps) {
       delete jobsCache[key];
     });
 
+    userJobsCache[accessToken].push(data);
+
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -107,4 +137,38 @@ async function postJob(newJob: PostJobProps) {
   }
 }
 
-export { get_jobs, get_job, userJobs, postJob };
+async function applyToJob(jobId: string) {
+  const accessToken = accessTokenService.get();
+
+  if (!accessToken) {
+    throw new Error("Login to apply to a job");
+  }
+
+  try {
+    const response = await axios.post<ApplyToJobResponse>(
+      `${BASE_URL}/api/candidate/apply/${jobId}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      }
+    );
+
+    const data = response.data;
+
+    const key = JOB_KEY + data.job.id;
+    jobCache[key].candidates += 1;
+
+    appliedJobsCache[accessToken].push(data.job);
+
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message);
+    }
+  }
+}
+
+export { get_jobs, get_job, userJobs, postJob, applyToJob, appliedJobs };

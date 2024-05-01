@@ -1,5 +1,5 @@
 import { ref, type UnwrapRef } from "vue";
-import { wait } from "@/utils";
+// import { wait } from "@/utils";
 
 export default function useFetchData<T>(handler: () => Promise<T>) {
   const error = ref<Error | null>(null);
@@ -10,6 +10,7 @@ export default function useFetchData<T>(handler: () => Promise<T>) {
   const doRequest = async () => {
     isLoading.value = true;
     try {
+      // await wait(2000);
       data.value = (await handler()) as UnwrapRef<T>;
     } catch (err) {
       if (err instanceof Error) {

@@ -1,9 +1,29 @@
 <script setup lang="ts">
+import { applyToJob } from "@/api/jobs";
 import IconLocation from "@/components/icons/IconLocation.vue";
+import IconLoader from "@/components/icons/IconLoader.vue";
+import ErrorToast from "@/components/ErrorToast.vue";
+import useFetchData from "@/hooks/useFetchData";
 import type { MainInfoProps } from "@/types";
+import { ref, watch } from "vue";
 
-const { title, company, address, description, candidates } =
+const { jobId, title, company, address, description, candidates } =
   defineProps<MainInfoProps>();
+
+const reactiveCandidates = ref(candidates);
+
+const { data, doRequest, isLoading, error } = useFetchData(() =>
+  applyToJob(jobId)
+);
+
+watch(
+  () => data.value,
+  () => {
+    if (data.value && typeof reactiveCandidates.value === "number") {
+      reactiveCandidates.value += 1;
+    }
+  }
+);
 </script>
 
 <template>
@@ -22,10 +42,17 @@ const { title, company, address, description, candidates } =
   </div>
 
   <div class="mainInfo">
-    <button class="button clickable" type="button">Apply Now</button>
-    <span class="mainInfo__candidates"
-      >{{ candidates }} Candidates have applied for this job</span
+    <button
+      @click="doRequest"
+      class="button button--form"
+      type="button"
+      :disabled="isLoading"
     >
+      <IconLoader v-if="isLoading" />
+      <span v-else>Apply Now</span>
+    </button>
+
+    <span class="mainInfo__candidates">{{ reactiveCandidates }} Candidates have applied for this job</span>
   </div>
 
   <p class="mainInfo__description">
@@ -33,11 +60,20 @@ const { title, company, address, description, candidates } =
     <br />
     {{ description }}
   </p>
+
+  <transition name="slide">
+    <ErrorToast
+      v-if="error"
+      :error="error?.message"
+      @clear-error="error = null"
+    />
+  </transition>
 </template>
 
 <style scoped lang="scss">
 @import "../../styles/mixins.scss";
 @import "../../styles/buttons.scss";
+@import "../../styles/transitions/slide.scss";
 
 .mainInfo {
   display: flex;
@@ -87,5 +123,9 @@ const { title, company, address, description, candidates } =
     min-width: 24px;
     stroke: var(--c-main-text);
   }
+}
+
+.button {
+  width: 170px;
 }
 </style>

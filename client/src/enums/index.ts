@@ -42,16 +42,17 @@ export enum InputNames {
 
 export enum JobInputNames {
   Title = "title",
-  Description = "description",
   Email = "email",
   Address = "address",
   Salary = "salary",
   Position = "position",
   Company = "company",
-  // JobType = "jobType",
-  // Education = "education",
-  // Industry = "industry",
   Experience = "experience",
+}
+
+export enum JobsByUser {
+  Created = "Created",
+  Applied = "Applied",
 }
 
 export const filters = {

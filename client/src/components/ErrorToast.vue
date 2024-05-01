@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, watchEffect, defineEmits } from 'vue';
-import IconError from './icons/IconError.vue';
+import { ref, watchEffect, defineEmits } from "vue";
+import IconError from "./icons/IconError.vue";
 
 const { error } = defineProps<{ error: string | undefined }>();
-const emit = defineEmits(['clear-error']);
+const emit = defineEmits(["clear-error"]);
 
 const visible = ref(false);
 
@@ -11,8 +11,8 @@ watchEffect(() => {
   visible.value = true;
   setTimeout(() => {
     visible.value = false;
-    emit('clear-error');
-  }, 2000);
+    emit("clear-error");
+  }, 3000);
 });
 </script>
 
