@@ -36,7 +36,7 @@ doRequest();
         </RouterLink>
         <DeleteJob
           v-if="usersJobs === JobsByUser.Created"
-          :job-id="job.id"
+          :job-id="job.id.toString()"
           @job-deleted="doRequest"
         />
       </li>

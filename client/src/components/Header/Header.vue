@@ -42,7 +42,7 @@ const useAuth = useAuthStore();
 @import "../../styles/buttons.scss";
 
 .header {
-  background-color: var(--header-bg);
+  background-color: var(--headerFooter-bg);
 }
 
 .logos {

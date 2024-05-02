@@ -34,6 +34,7 @@ const { isLoading, error, doRequest } = useFetchData(onJobDeleted);
 @import "../../styles/transitions/slide.scss";
 
 button {
+  position: relative;
   margin-left: 10px;
   background: none;
   border: none;
