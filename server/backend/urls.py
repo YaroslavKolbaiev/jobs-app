@@ -36,6 +36,7 @@ from account.views import (
     upload_resume,
     login,
     logout,
+    send_message,
 )
 
 # Build in
@@ -60,6 +61,7 @@ urlpatterns = [
     path("api/me/", current_user, name="current-user"),
     path("api/auth/update", update_user, name="update-user"),
     path("api/auth/logout", logout, name="logout"),
+    path("api/send-message", send_message, name="send-message"),
     # Resume
     path("api/upload/resume", upload_resume, name="upload-resume"),
     # Candidate

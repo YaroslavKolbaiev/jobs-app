@@ -123,4 +123,14 @@ async function uploadResume(
   return response.data;
 }
 
-export { login, getUser, register, logout, uploadResume };
+async function sendMessage(data: {
+  message: string;
+  name: string;
+  email: string;
+}) {
+  const response = await axios.post(`${BASE_URL}/api/send-message`, data);
+
+  return response.data;
+}
+
+export { login, getUser, register, logout, uploadResume, sendMessage };

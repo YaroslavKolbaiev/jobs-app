@@ -9,6 +9,7 @@ from rest_framework import status
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import get_object_or_404
 from .decorators import authorized_only
+from .notification_manager import NotificationManager
 
 
 # Create your views here.
@@ -88,7 +89,6 @@ def current_user(request):
 
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated])
-# @authorized_only
 def update_user(request):
     user = request.user
     data = request.data
@@ -104,7 +104,6 @@ def update_user(request):
 
 
 @api_view(["POST"])
-# @authorized_only
 @permission_classes([IsAuthenticated])
 def upload_resume(request):
     user = request.user
@@ -140,3 +139,14 @@ def logout(request):
     response = Response({"message": "Logged out"}, status=status.HTTP_200_OK)
     response.delete_cookie("refresh_token")
     return response
+
+
+@api_view(["POST"])
+def send_message(request):
+    request_data = request.data
+
+    notification_manager = NotificationManager()
+
+    notification_manager.send_msg(**request_data)
+
+    return Response({"message": "Message sent"}, status=status.HTTP_200_OK)

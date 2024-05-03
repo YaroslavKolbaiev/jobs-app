@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
 import IconCloseModal from "@/components/icons/IconCloseModal.vue";
+import IconLoader from "@/components/icons/IconLoader.vue";
+import useFetchData from "@/hooks/useFetchData";
+import { sendMessage } from "@/api/auth";
 
 const formData = reactive({
   name: "",
@@ -10,8 +13,8 @@ const formData = reactive({
 
 const isModal = ref(false);
 
-const onSubmit = () => {
-  console.log("Submited");
+const onSubmit = async () => {
+  await sendMessage(formData);
 
   Object.keys(formData).forEach((key) => {
     formData[key as keyof typeof formData] = "";
@@ -19,6 +22,8 @@ const onSubmit = () => {
 
   isModal.value = true;
 };
+
+const { isLoading, doRequest } = useFetchData(onSubmit);
 </script>
 
 <template>
@@ -26,11 +31,14 @@ const onSubmit = () => {
     <footer>
       <div>
         <h2>Send us a message</h2>
-        <form @submit.prevent="onSubmit">
+        <form @submit.prevent="doRequest">
           <input v-model="formData.name" type="text" placeholder="Name" />
           <input v-model="formData.email" type="email" placeholder="Email" />
           <textarea v-model="formData.message" placeholder="Message"></textarea>
-          <button class="button" type="submit">Send</button>
+          <button :disabled="isLoading" class="button" type="submit">
+            <IconLoader v-if="isLoading" />
+            <span v-else>Send</span>
+          </button>
         </form>
       </div>
 
