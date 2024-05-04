@@ -1,0 +1,76 @@
+@import "./gridFlex.scss";
+@import "./mixins.scss";
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600;700&family=Roboto:wght@400;700&display=swap");
+
+:root {
+  --main-bg: #f2f6fa;
+  --card-bg: #fffafa;
+  --headerFooter-bg: #2c2c2c;
+  --row-bg: #d3d3d3;
+  --search-bg: #e5e9ec;
+
+  --header-text: #ffff;
+  --c-main-text: #2c2c2c;
+
+  --c-blue: #2060f6;
+  --c-dark-blue: #1a4fc9;
+  --c-gray: #6c788b;
+
+  --skeleton-line1: #e0e0e0;
+  --skeleton-line2: #f0f0f0;
+
+  --jobs-gap: 30px;
+  --results-gap: 20px;
+  --max-width: 1440px;
+  --px: 40px;
+  --py: 20px;
+  --px-mobile: 20px;
+  --py-mobile: 10px;
+  --auth-btn-height: 48px;
+}
+
+body.dark {
+  --main-bg: #0c2233;
+  --headerFooter-bg: #020205;
+  --card-bg: #083d56;
+  --row-bg: #134c6d;
+  --search-bg: #162e41;
+
+  --header-text: #ffff;
+  --c-main-text: #dbd8e3;
+
+  --skeleton-line1: #233142;
+  --skeleton-line2: #455d7a;
+}
+
+body {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--main-bg);
+  position: relative;
+}
+
+main {
+  flex-grow: 1;
+}
+
+p {
+  margin: 0;
+}
+
+.container {
+  max-width: var(--max-width);
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: var(--py-mobile) var(--px-mobile);
+
+  @include onTablet {
+    padding: var(--py) var(--px);
+  }
+}

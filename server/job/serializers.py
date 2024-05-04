@@ -1,11 +1,22 @@
 from rest_framework import serializers
-from .models import Job
+from .models import Job, CandidatesApplied
 
 
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
         fields = "__all__"
+
+
+class CandidatesAppliedSerializer(serializers.ModelSerializer):
+    # If not specifing job in response you will get only foreign key of job
+    # doing like bellow you will get complete job object in response
+    job = JobSerializer()
+
+    class Meta:
+        model = CandidatesApplied
+        fields = "__all__"
+        fields = ["user", "resume", "appliedAt", "job"]
 
 
 # The JobSerializer class is a subclass of ModelSerializer,

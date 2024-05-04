@@ -1,0 +1,17 @@
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.5s;
+}
+
+.slide-enter-from {
+  transform: translate(-50%, calc(100% + 20px));
+}
+
+.slide-enter-to,
+.slide-leave-from {
+  transform: translate(-50%, 0);
+}
+
+.slide-leave-to {
+  transform: translate(-50%, calc(100% + 20px));
+}

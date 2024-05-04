@@ -1,0 +1,70 @@
+.skeleton {
+  border-radius: 20px;
+  margin-bottom: 15px;
+  background: linear-gradient(
+    90deg,
+    var(--card-bg) 25%,
+    var(--skeleton-line1) 50%,
+    var(--skeleton-line2) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+
+  &__card {
+    box-shadow: 0 9px 18px rgba(37, 41, 49, 0.03);
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    margin-top: 20px;
+    box-sizing: border-box;
+  }
+
+  &__company {
+    height: 25px;
+    width: 100%;
+  }
+
+  &__applyBtn {
+    height: 40px;
+    width: 20%;
+  }
+
+  &__candidates {
+    height: 25px;
+    width: 70%;
+  }
+
+  &__short-lines {
+    display: flex;
+    gap: 10%;
+  }
+
+  &__title {
+    height: 35px;
+    width: 40%;
+  }
+
+  &__line {
+    height: 10px;
+    width: 100%;
+  }
+
+  &__short-line {
+    height: 10px;
+    width: 50%;
+  }
+
+  &__circle {
+    @include square_32;
+    border-radius: 50%;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

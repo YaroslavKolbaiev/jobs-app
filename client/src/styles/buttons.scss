@@ -1,0 +1,51 @@
+@import "./mixins.scss";
+
+.button {
+  background-color: var(--c-blue);
+  padding: 8px 10px;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background-color 200ms;
+  color: var(--header-text);
+  border: none;
+
+  @include onDesktop {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px 16px;
+  }
+
+  &:hover {
+    background-color: var(--c-dark-blue);
+  }
+
+  &__disabled {
+    opacity: 0.6;
+
+    &:hover {
+      background-color: var(--c-blue);
+    }
+  }
+
+  &--form {
+    border-radius: 40px;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0;
+    height: var(--auth-btn-height);
+  }
+
+  &--logout {
+    background-color: #d71515;
+
+    &:hover {
+      background-color: #ff0000;
+    }
+  }
+}
+
+.clickable:active {
+  transform: scale(0.9);
+}
