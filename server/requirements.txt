@@ -17,13 +17,6 @@ djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
 future==1.0.0
 geocoder==1.38.1
-google-api-core==2.19.0
-google-auth==2.29.0
-google-cloud-core==2.4.1
-google-cloud-storage==2.16.0
-google-crc32c==1.5.0
-google-resumable-media==2.7.0
-googleapis-common-protos==1.63.0
 gunicorn==21.2.0
 idna==3.6
 jmespath==1.0.1
