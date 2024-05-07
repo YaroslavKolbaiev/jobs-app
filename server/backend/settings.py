@@ -33,7 +33,11 @@ DEBUG = (
     os.environ.get("DEBUG") == "True"
 )  # Sers DEBUG to True if the environment variable is True
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = [
+    "ultimate-job-9337c040b38c.herokuapp.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -45,11 +49,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "rest_framework",  # why do we need this?
-    "corsheaders",  # why do we need this?
-    "storages",  # why do we need this?
-    "django_filters",  # why do we need this?
-    "django.contrib.gis",  # Add this line for GeoDjango
+    "rest_framework",
+    "corsheaders",
+    "storages",
+    "django_filters",
+    "django.contrib.gis",
     "job.apps.JobConfig",
     "account.apps.AccountConfig",
 ]
@@ -57,6 +61,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -68,6 +73,8 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "https://ultimate-job.netlify.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -94,18 +101,20 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.contrib.gis.db.backends.postgis",
-#         "NAME": os.environ.get("DATABASE_NAME"),
-#         "USER": os.environ.get("DATABASE_USER"),
-#         "PASSWORD": os.environ.get("DATABASE_PASSWORD"),
-#         "HOST": os.environ.get("DATABASE_HOST"),
-#         "PORT": os.environ.get("DATABASE_PORT"),
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": os.environ.get("DATABASE_NAME"),
+        "USER": os.environ.get("DATABASE_USER"),
+        "PASSWORD": os.environ.get("DATABASE_PASSWORD"),
+        "HOST": os.environ.get("DATABASE_HOST"),
+        "PORT": os.environ.get("DATABASE_PORT"),
+    }
+}
 
-DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))}
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES["default"].update(db_from_env)
+DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -154,11 +163,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-GS_BUCKET_NAME = "ultimate-job-bucket-postgres"
-STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-STATIC_URL = "https://storage.googleapis.com/ultimate-job-bucket-postgres"
-MEDIA_URL = "https://storage.googleapis.com/{}/".format(GS_BUCKET_NAME)
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_TMP = os.path.join(BASE_DIR, "static")
+
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+MEDIA_URL = "/media/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
