@@ -17,6 +17,7 @@ djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
 future==1.0.0
 geocoder==1.38.1
+GDAL==3.4.1
 gunicorn==21.2.0
 idna==3.6
 jmespath==1.0.1
