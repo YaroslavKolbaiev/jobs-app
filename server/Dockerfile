@@ -12,13 +12,9 @@ RUN apt-get update && apt-get install -y \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 
-# Set GDAL environment variables
-ENV GDAL_VERSION $(gdal-config --version)
-ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
-ENV C_INCLUDE_PATH=/usr/include/gdal
-
-# Install GDAL Python bindings
-RUN pip install GDAL==$GDAL_VERSION
+# Install GDAL Python bindings matching the installed GDAL version
+RUN GDAL_VERSION=$(gdal-config --version) && \
+    pip install GDAL==$GDAL_VERSION
 
 # Continue with your application setup
 WORKDIR /app
