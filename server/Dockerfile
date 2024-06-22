@@ -23,4 +23,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # Run the application
-CMD gunicorn jobs-app.wsgi:application --bind 0.0.0.0:$PORT
+CMD gunicorn jobs_app.wsgi:application --bind 0.0.0.0:$PORT
