@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.environ.get("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
-    "onrender.com",
+    "jobs-app-w6fh.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
