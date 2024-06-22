@@ -29,16 +29,13 @@ load_dotenv()
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (
-    os.environ.get("DEBUG") == "True"
-)  # Sers DEBUG to True if the environment variable is True
+DEBUG = os.environ.get("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
     "ultimate-job-9337c040b38c.herokuapp.com",
     "localhost",
     "127.0.0.1",
 ]
-
 
 # Application definition
 
@@ -61,7 +58,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -74,7 +70,6 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "https://ultimate-job.netlify.app",
     "http://localhost:5173",
-    "http://127.0.0.1:5173",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -97,23 +92,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "backend.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME": os.environ.get("DATABASE_NAME"),
-        "USER": os.environ.get("DATABASE_USER"),
-        "PASSWORD": os.environ.get("DATABASE_PASSWORD"),
-        "HOST": os.environ.get("DATABASE_HOST"),
-        "PORT": os.environ.get("DATABASE_PORT"),
-    }
+    "default": dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"), conm_max_age=600
+    )
 }
 
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES["default"].update(db_from_env)
 DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
 
 # Password validation
@@ -163,15 +150,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATIC_TMP = os.path.join(BASE_DIR, "static")
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# STATIC_TMP = os.path.join(BASE_DIR, "static")
 
-STATIC_URL = "/static/"
+# STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
-MEDIA_URL = "/media/"
+# MEDIA_URL = "/media/"
 
 
 # Default primary key field type
@@ -188,8 +175,3 @@ AWS_S3_VERIFY = True
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-VIRTUAL_ENV_BASE = os.environ.get("VIRTUAL_ENV")
-
-GEOS_LIBRARY_PATH = f"{VIRTUAL_ENV_BASE}" + "/lib/site-packages/osgeo/geos_c.dll"
-GDAL_LIBRARY_PATH = f"{VIRTUAL_ENV_BASE}" + "/lib/site-packages/osgeo/gdal304.dll"
