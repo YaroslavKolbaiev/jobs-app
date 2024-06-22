@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: jobs-app
+    env: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+    buildCommand: python manage.py migrate
+    startCommand: gunicorn jobs-app.wsgi:application --bind 0.0.0.0:$PORT

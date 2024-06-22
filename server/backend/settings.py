@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.environ.get("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
-    "ultimate-job-9337c040b38c.herokuapp.com",
+    "onrender.com",
     "localhost",
     "127.0.0.1",
 ]
