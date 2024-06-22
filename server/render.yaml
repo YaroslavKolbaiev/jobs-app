@@ -1,13 +1,22 @@
+databases:
+  - name: django-jobs
+    plan: free
+    databaseName: django_jobs_88id
+    user: django_jobs_88id_user
+
 services:
   - type: web
-    name: jobs-app
-    env: docker
     plan: free
-    healthCheckPath: /
+    name: jobs-app
+    runtime: docker
+    buildCommand: python manage.py migrate
+    startCommand: "python -m gunicorn mysite.asgi:application -k uvicorn.workers.UvicornWorker"
     envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: django-jobs
+          property: connectionString
       - key: SECRET_KEY
         generateValue: true
-      - key: DEBUG
-        value: "False"
-    buildCommand: python manage.py migrate
-    startCommand: gunicorn jobs-app.wsgi:application --bind 0.0.0.0:$PORT
+      - key: WEB_CONCURRENCY
+        value: 4
