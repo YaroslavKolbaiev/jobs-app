@@ -9,7 +9,7 @@ import SearchJobs from '@/components/Home/SearchJobs.vue';
     <div class="container">
       <div class="warning">
         Postgress SQL free tier has expired
-        <p>Data is not available</p>
+        <p>Data is not available.</p>
       </div>
       <div class="grid">
         <About />
