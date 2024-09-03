@@ -18,7 +18,7 @@ watch(page, () => {
   doRequest();
 });
 
-doRequest();
+// doRequest();
 </script>
 
 <template>

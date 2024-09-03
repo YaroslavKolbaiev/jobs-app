@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.environ.get("DEBUG") == "True"
 
 ALLOWED_HOSTS = [
-    "onrender.com",
+    "jobs-app-w6fh.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
@@ -95,9 +95,20 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.contrib.gis.db.backends.postgis",
+#         "NAME": os.environ.get("DATABASE_NAME"),
+#         "USER": os.environ.get("DATABASE_USER"),
+#         "PASSWORD": os.environ.get("DATABASE_PASSWORD_LOCAL"),
+#         "HOST": os.environ.get("DATABASE_HOST"),
+#         "PORT": os.environ.get("DATABASE_PORT"),
+#     }
+# }
+
 DATABASES = {
     "default": dj_database_url.config(
-        default=os.environ.get("DATABASE_URL"), conm_max_age=600
+        default=os.environ.get("DATABASE_URL"), conn_max_age=600
     )
 }
 
@@ -175,3 +186,8 @@ AWS_S3_VERIFY = True
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+VIRTUAL_ENV_BASE = os.environ.get("VIRTUAL_ENV")
+
+GEOS_LIBRARY_PATH = f"{VIRTUAL_ENV_BASE}" + "/lib/site-packages/osgeo/geos_c.dll"
+GDAL_LIBRARY_PATH = f"{VIRTUAL_ENV_BASE}" + "/lib/site-packages/osgeo/gdal304.dll"
