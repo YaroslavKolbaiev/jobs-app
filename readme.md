@@ -8,7 +8,7 @@ https://ultimate-job.netlify.app
 
 The front-end of the application is built using [Vue JS](https://vuejs.org), a progressive JavaScript framework known for its adaptability and ease of use. Vue.js allows for the development of maintainable and testable code bases, making it an excellent choice for complex applications. [TypeScript](https://www.typescriptlang.org/), a statically typed superset of JavaScript, is used to ensure type safety and enhance developer productivity. This combination of Vue.js and TypeScript provides a robust foundation for the front-end.
 
-The application also uses [ESLint](https://eslint.org/) for linting, which helps maintain code quality and consistency by detecting and fixing code that doesn't adhere to certain style guidelines. State management, a critical aspect of any complex application, is handled by [Pinia](https://pinia.esm.dev/). Pinia provides a simple and efficient way to manage the application's state, making it easier to track and update the state as needed.
+The application also uses [ESLint](https://eslint.org/) for linting, which helps maintain code quality and consistency by detecting and fixing code that doesn't adhere to certain style guidelines. State management, a critical aspect of any complex application, is handled by [Pinia](https://pinia.esm.dev/). Pinia provides a simple and efficient way to manage the application's state, making it easier to track and update the state as need.
 
 Performance is a key focus of the application, and this is addressed through the implementation of caching. Caching helps improve the speed and performance of the application by storing copies of files or data that are used frequently.
 
